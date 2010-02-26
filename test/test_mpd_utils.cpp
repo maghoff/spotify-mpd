@@ -1,3 +1,4 @@
+#include <iostream>
 #include <QtTest/QtTest>
 #include <QVector>
 #include <QString>
@@ -28,6 +29,13 @@ void TestMPDUtils::splitting_data() {
 
 	tmp.clear(); tmp << "play" << "music file.ogg";
 	QTest::newRow("simple quoted") << QByteArray("play \"music file.ogg\"\n") << tmp;
+
+	tmp.clear(); tmp << "play" << "music\\file\".ogg";
+	QTest::newRow("complex quoted") << QByteArray("play \"music\\\\file\\\".ogg\"\n") << tmp;
+
+	// It is unclear to me how this protocol handles fields with newline characters.
+	// From rudimentary testing it seems that they are allowed directly inside quoted
+	// fields. Which is a shame, because it ruins our line buffering.
 }
 
 void TestMPDUtils::splitting() {
