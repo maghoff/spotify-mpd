@@ -53,6 +53,14 @@ void TestMPDUtils::splitting_data() {
 	tmp.clear(); tmp << "play" << "music\\file\".ogg";
 	QTest::newRow("complex quoted") << QByteArray("play \"music\\\\file\\\".ogg\"\n") << tmp;
 
+	// The documentation is a bit light on how the field framing works. I have assumed
+	// that two consecutive spaces contain an empty field in between:
+	tmp.clear(); tmp << "hello" << "";
+	QTest::newRow("empty field") << QByteArray("hello \n") << tmp;
+
+	tmp.clear(); tmp << "hello" << "" << "" << "world";
+	QTest::newRow("empty fields") << QByteArray("hello   world\n") << tmp;
+
 	// It is unclear to me how this protocol handles fields with newline characters.
 	// From rudimentary testing it seems that they are allowed directly inside quoted
 	// fields. Which is a shame, because it ruins our line buffering.
