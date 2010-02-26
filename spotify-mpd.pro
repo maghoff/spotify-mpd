@@ -9,5 +9,7 @@ CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
-    application.cpp
-HEADERS += application.hpp
+    application.cpp \
+    mpd_utils.cpp
+HEADERS += application.hpp \
+    mpd_utils.hpp

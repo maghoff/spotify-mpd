@@ -4,10 +4,13 @@
 #include <QObject>
 #include <QTcpServer>
 
+class QIODevice;
+
 class application : public QObject {
 	Q_OBJECT
 
 	QTcpServer server;
+	QIODevice* io;
 
 public:
 	application();
@@ -15,6 +18,7 @@ public:
 
 private slots:
 	void newConnection();
+	void readMe();
 };
 
 #endif // APPLICATION_HPP
