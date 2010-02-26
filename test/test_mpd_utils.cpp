@@ -25,6 +25,9 @@ void TestMPDUtils::splitting_data() {
 
 	tmp.clear(); tmp << "Uncle" << "Leo!" << "Hello!";
 	QTest::newRow("multiple") << QByteArray("Uncle Leo! Hello!\n") << tmp;
+
+	tmp.clear(); tmp << "play" << "music file.ogg";
+	QTest::newRow("simple quoted") << QByteArray("play \"music file.ogg\"\n") << tmp;
 }
 
 void TestMPDUtils::splitting() {
