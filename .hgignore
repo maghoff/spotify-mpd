@@ -2,3 +2,4 @@ syntax: glob
 Makefile
 *.o
 spotify-mpd
+moc_*.cpp

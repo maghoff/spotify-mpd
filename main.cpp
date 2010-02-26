@@ -1,8 +1,10 @@
 #include <QtCore/QCoreApplication>
+#include "application.hpp"
 
-int main(int argc, char *argv[])
-{
-    QCoreApplication a(argc, argv);
+int main(int argc, char *argv[]) {
+	QCoreApplication a(argc, argv);
 
-    return a.exec();
+	application app;
+
+	return a.exec();
 }
