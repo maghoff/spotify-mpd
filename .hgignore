@@ -1,0 +1,4 @@
+syntax: glob
+Makefile
+*.o
+spotify-mpd
