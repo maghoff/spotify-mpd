@@ -3,3 +3,5 @@ Makefile
 *.o
 spotify-mpd
 moc_*.cpp
+test/test
+*.moc
