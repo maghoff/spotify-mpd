@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <QtTest/QtTest>
 #include <QVector>
 #include <QString>
@@ -29,6 +30,9 @@ class TestMPDUtils: public QObject {
 private slots:
 	void splitting_data();
 	void splitting();
+
+	void splittingFail_data();
+	void splittingFail();
 };
 
 void TestMPDUtils::splitting_data() {
@@ -59,6 +63,23 @@ void TestMPDUtils::splitting() {
 	QFETCH(QVector<QString>, decoded);
 
 	QCOMPARE(splitMessage(coded), decoded);
+}
+
+void TestMPDUtils::splittingFail_data() {
+	QTest::addColumn<QByteArray>("coded");
+	QTest::newRow("open quoted") << QByteArray("play \"music\n");
+	QTest::newRow("open escape") << QByteArray("play \"music\\\n");
+}
+
+void TestMPDUtils::splittingFail() {
+	QFETCH(QByteArray, coded);
+	try {
+		QVector<QString> decoded = splitMessage(coded);
+		QFAIL("Expected exception was not thrown");
+	}
+	catch (const std::runtime_error&) {
+		// pass
+	}
 }
 
 QTEST_MAIN(TestMPDUtils)
