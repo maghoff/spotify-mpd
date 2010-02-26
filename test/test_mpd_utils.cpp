@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <QtTest/QtTest>
 #include <QVector>
 #include <QString>
@@ -6,6 +7,21 @@
 #include "../mpd_utils.hpp"
 
 Q_DECLARE_METATYPE(QVector<QString>);
+
+namespace QTest {
+	template<>
+	char *toString(const QVector<QString> &msg) {
+		std::ostringstream ss;
+		ss << "[";
+		for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
+			if (i != msg.begin()) ss << ", ";
+			ss << '"' << (*i).toUtf8().data() << '"';
+		}
+		ss << ']';
+		return qstrdup(ss.str().c_str());
+	}
+}
+
 
 class TestMPDUtils: public QObject {
 	Q_OBJECT
