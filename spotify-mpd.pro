@@ -10,6 +10,13 @@ CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
-    mpd_utils.cpp
+    mpd_utils.cpp \
+    spotify.cpp \
+	spotifysession.cpp \
+	appkey.c
 HEADERS += application.hpp \
-    mpd_utils.hpp
+    mpd_utils.hpp \
+    spotify.hpp \
+    spotifysession.hpp \
+    appkey.h
+ LIBS += -L/usr/local/lib -Wl,-R/usr/local/lib -lspotify
