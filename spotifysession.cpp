@@ -1,7 +1,9 @@
-#include <QCoreApplication>
+#include <cassert>
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <QCoreApplication>
 #include <spotify/api.h>
 #include "spotifysession.hpp"
 #include "appkey.h"
@@ -13,12 +15,46 @@ std::string utf8_str(QString s) {
 	return std::string(a.data(), a.data() + a.size());
 }
 
+SpotifyCallbacks* g_spotifyCallbacks = 0;
+SpotifySession* g_spotifySession = 0;
+QEvent::Type g_spotifyEvent = QEvent::None;
+
+// These events happen on a different thread than main_thread:
+void handle_notify_main_thread(sp_session*) {
+	std::cout << "notify_main_thread" << std::endl;
+	QCoreApplication::postEvent(
+		g_spotifySession,
+		new QEvent(g_spotifyEvent)
+	);
 }
 
-SpotifySession::SpotifySession(QObject* parent) :
-	QObject(parent),
-	session(0)
-{
+// These events happen on the main thread:
+void handle_logged_in(sp_session*, sp_error error) {
+	if (error != SP_ERROR_OK) {
+		std::ostringstream ss;
+		ss << "failed to log in to spotify: " << sp_error_message(error);
+		throw std::runtime_error(ss.str());
+	}
+
+	g_spotifyCallbacks->sp_loggedIn();
+}
+
+void handle_logged_out(sp_session*) { g_spotifyCallbacks->sp_loggedOut(); }
+void handle_metadata_updated(sp_session*) { g_spotifyCallbacks->sp_metadataUpdated(); }
+void handle_play_token_lost(sp_session*) { g_spotifyCallbacks->sp_playTokenLost(); }
+
+void handle_connection_error(sp_session*, sp_error) {
+	g_spotifyCallbacks->sp_connectionError();
+}
+
+void handle_message_to_user(sp_session*, const char* msg) {
+	g_spotifyCallbacks->sp_messageToUser(QString::fromUtf8(msg));
+}
+
+void handle_log_message(sp_session*, const char* msg) {
+	g_spotifyCallbacks->sp_logMessage(QString::fromUtf8(msg));
+}
+
 }
 
 SpotifySession::SpotifySession(QObject* parent, QString username_, QString password_) :
@@ -26,12 +62,33 @@ SpotifySession::SpotifySession(QObject* parent, QString username_, QString passw
 	username(username_),
 	password(password_)
 {
+	assert(g_spotifySession == 0);
+	g_spotifyCallbacks = this;
+	g_spotifySession = this;
+	g_spotifyEvent = static_cast<QEvent::Type>(QEvent::registerEventType());
 }
 
-SpotifySession::~SpotifySession() { }
+SpotifySession::~SpotifySession() {
+	// Would delete the sp_session-object, but it is not allowed by the API
+	assert(g_spotifySession == this);
+	g_spotifySession = 0;
+}
+
+bool SpotifySession::event(QEvent* e) {
+	if (e->type() == g_spotifyEvent) {
+		int timeout = -1;
+		sp_session_process_events(session, &timeout);
+		std::cout << "Timeout: " << timeout << std::endl;
+		return true;
+	}
+
+	return QObject::event(e);
+}
 
 void SpotifySession::connect() {
 	sp_error error;
+
+	assert(g_spotifySession == this);
 
 	sp_session_config config;
 
@@ -58,7 +115,20 @@ void SpotifySession::connect() {
 	config.user_agent = appname.c_str();
 
 	// Register the callbacks.
-	config.callbacks = 0; //&g_callbacks;
+	static sp_session_callbacks callbacks = {
+		&handle_logged_in, // logged_in
+		&handle_logged_out, // logged_out
+		&handle_metadata_updated, // metadata_updated
+		&handle_connection_error, // connection_error
+		&handle_message_to_user, // message_to_user
+		&handle_notify_main_thread, // notify_main_thread
+		0, // music_delivery
+		&handle_play_token_lost, // play_token_lost
+		&handle_log_message, // log_message
+		0  // end_of_track
+	};
+
+	config.callbacks = &callbacks;
 
 	error = sp_session_init(&config, &session);
 
@@ -78,3 +148,39 @@ void SpotifySession::connect() {
 	}
 }
 
+void SpotifySession::sp_loggedIn() {
+	std::cout << __FUNCTION__ << std::endl;
+	loggedIn();
+}
+
+void SpotifySession::sp_loggedOut() {
+	std::cout << __FUNCTION__ << std::endl;
+	loggedOut();
+}
+
+void SpotifySession::sp_metadataUpdated() {
+	std::cout << __FUNCTION__ << std::endl;
+	metadataUpdated();
+}
+
+void SpotifySession::sp_connectionError(/* error code */) {
+	std::cout << __FUNCTION__ << std::endl;
+	connectionError();
+}
+
+void SpotifySession::sp_messageToUser(QString msg) {
+	std::cout << __FUNCTION__ << std::endl;
+	std::cout << "SPOTIFY MESSAGE: " << utf8_str(msg) << std::endl;
+	messageToUser(msg);
+}
+
+void SpotifySession::sp_playTokenLost() {
+	std::cout << __FUNCTION__ << std::endl;
+	playTokenLost();
+}
+
+void SpotifySession::sp_logMessage(QString msg) {
+	std::cout << __FUNCTION__ << std::endl;
+	std::cout << "SPOTIFY LOG: " << utf8_str(msg) << std::endl;
+	logMessage(msg);
+}
