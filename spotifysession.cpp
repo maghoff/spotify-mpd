@@ -27,6 +27,8 @@ SpotifySession::SpotifySession(QObject* parent, QString username_, QString passw
 	password(password_)
 {
 	spotifyNotifyMainThreadEvent = static_cast<QEvent::Type>(QEvent::registerEventType());
+	QObject::connect(&spotifyProcessEventsTimer, SIGNAL(timeout()), this, SLOT(spotifyNotifyMainThread()));
+	spotifyProcessEventsTimer.setSingleShot(true);
 }
 
 SpotifySession::~SpotifySession() {
@@ -35,13 +37,17 @@ SpotifySession::~SpotifySession() {
 
 bool SpotifySession::event(QEvent* e) {
 	if (e->type() == spotifyNotifyMainThreadEvent) {
-		int timeout = -1;
-		sp_session_process_events(session, &timeout);
-		std::cout << "Timeout: " << timeout << std::endl;
+		spotifyNotifyMainThread();
 		return true;
 	}
 
 	return QObject::event(e);
+}
+
+void SpotifySession::spotifyNotifyMainThread() {
+	int timeout = -1;
+	sp_session_process_events(session, &timeout);
+	spotifyProcessEventsTimer.start(timeout);
 }
 
 void SpotifySession::connect() {

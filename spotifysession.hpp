@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QEvent>
+#include <QTimer>
 #include <spotify/api.h>
 
 class SpotifySession : public QObject {
@@ -22,6 +23,8 @@ class SpotifySession : public QObject {
 	static void handle_message_to_user(sp_session*, const char*);
 	static void handle_log_message(sp_session*, const char*);
 
+	QTimer spotifyProcessEventsTimer;
+
 public:
 	SpotifySession(QObject* parent, QString username, QString password);
 	~SpotifySession();
@@ -30,6 +33,9 @@ public:
 
 public slots:
 	void connect();
+
+private slots:
+	void spotifyNotifyMainThread();
 
 signals:
 	void loggedIn();
