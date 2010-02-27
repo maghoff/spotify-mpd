@@ -3,34 +3,24 @@
 
 #include <QObject>
 #include <QEvent>
+#include <spotify/api.h>
 
-struct sp_session;
-
-struct SpotifyCallbacks {
-	virtual void sp_loggedIn() = 0;
-	virtual void sp_loggedOut() = 0;
-	virtual void sp_metadataUpdated() = 0;
-	virtual void sp_connectionError(/* error code */) = 0;
-	virtual void sp_messageToUser(QString) = 0;
-	virtual void sp_playTokenLost() = 0;
-	virtual void sp_logMessage(QString) = 0;
-};
-
-class SpotifySession : public QObject, SpotifyCallbacks {
+class SpotifySession : public QObject {
 	Q_OBJECT
+
+	QEvent::Type spotifyNotifyMainThreadEvent;
 
 	QString username, password;
 	sp_session *session;
 
-	QEvent::Type spotifyNotifyMainThreadEvent;
-
-	void sp_loggedIn();
-	void sp_loggedOut();
-	void sp_metadataUpdated();
-	void sp_connectionError(/* error code */);
-	void sp_messageToUser(QString);
-	void sp_playTokenLost();
-	void sp_logMessage(QString);
+	static void handle_notify_main_thread(sp_session*);
+	static void handle_logged_in(sp_session*, sp_error);
+	static void handle_logged_out(sp_session*);
+	static void handle_metadata_updated(sp_session*);
+	static void handle_play_token_lost(sp_session*);
+	static void handle_connection_error(sp_session*, sp_error);
+	static void handle_message_to_user(sp_session*, const char*);
+	static void handle_log_message(sp_session*, const char*);
 
 public:
 	SpotifySession(QObject* parent, QString username, QString password);
