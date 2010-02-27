@@ -1,3 +1,4 @@
+#include <QCoreApplication>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -53,7 +54,8 @@ void SpotifySession::connect() {
 
 	// This identifies the application using some
 	// free-text string [1, 255] characters.
-	config.user_agent = "spotify-mpd";
+	std::string appname = utf8_str(QCoreApplication::applicationName());
+	config.user_agent = appname.c_str();
 
 	// Register the callbacks.
 	config.callbacks = 0; //&g_callbacks;
