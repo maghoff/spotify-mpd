@@ -5,3 +5,4 @@ spotify-mpd
 moc_*.cpp
 test/test
 *.moc
+*.pro.user
