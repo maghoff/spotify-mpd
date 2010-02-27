@@ -2,6 +2,7 @@
 #define SPOTIFYSESSION_HPP
 
 #include <QObject>
+#include <QEvent>
 
 struct sp_session;
 
@@ -20,6 +21,8 @@ class SpotifySession : public QObject, SpotifyCallbacks {
 
 	QString username, password;
 	sp_session *session;
+
+	QEvent::Type spotifyNotifyMainThreadEvent;
 
 	void sp_loggedIn();
 	void sp_loggedOut();
