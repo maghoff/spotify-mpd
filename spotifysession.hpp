@@ -11,7 +11,6 @@ class SpotifySession : public QObject {
 
 	QEvent::Type spotifyNotifyMainThreadEvent;
 
-	QString username, password;
 	sp_session *session;
 
 	static void handle_notify_main_thread(sp_session*);
@@ -25,14 +24,14 @@ class SpotifySession : public QObject {
 
 	QTimer spotifyProcessEventsTimer;
 
+	void createSessionObject();
+
 public:
-	SpotifySession(QObject* parent, QString username, QString password);
+	SpotifySession(QObject* parent);
 	~SpotifySession();
 
 	bool event(QEvent*);
-
-public slots:
-	void connect();
+	void login(QString username, QString password);
 
 private slots:
 	void spotifyNotifyMainThread();

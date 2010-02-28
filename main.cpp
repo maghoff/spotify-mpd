@@ -31,8 +31,8 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	SpotifySession s(&app, settings.value("username", "").toString(), settings.value("password", "").toString());
-	s.connect();
+	SpotifySession s(&app);
+	s.login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
 	return a.exec();
 }

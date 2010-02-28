@@ -21,14 +21,15 @@ SpotifySession* userdata(sp_session* session) {
 
 }
 
-SpotifySession::SpotifySession(QObject* parent, QString username_, QString password_) :
+SpotifySession::SpotifySession(QObject* parent) :
 	QObject(parent),
-	username(username_),
-	password(password_)
+	session(0)
 {
 	spotifyNotifyMainThreadEvent = static_cast<QEvent::Type>(QEvent::registerEventType());
-	QObject::connect(&spotifyProcessEventsTimer, SIGNAL(timeout()), this, SLOT(spotifyNotifyMainThread()));
 	spotifyProcessEventsTimer.setSingleShot(true);
+	connect(&spotifyProcessEventsTimer, SIGNAL(timeout()), this, SLOT(spotifyNotifyMainThread()));
+
+	createSessionObject();
 }
 
 SpotifySession::~SpotifySession() {
@@ -50,9 +51,7 @@ void SpotifySession::spotifyNotifyMainThread() {
 	spotifyProcessEventsTimer.start(timeout);
 }
 
-void SpotifySession::connect() {
-	sp_error error;
-
+void SpotifySession::createSessionObject() {
 	sp_session_config config;
 
 	// Always do this. It allows libspotify to check for
@@ -95,15 +94,17 @@ void SpotifySession::connect() {
 
 	config.callbacks = &callbacks;
 
-	error = sp_session_init(&config, &session);
+	sp_error error = sp_session_init(&config, &session);
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
 		ss << "failed to create session: " << sp_error_message(error);
 		throw std::runtime_error(ss.str());
 	}
+}
 
-	error = sp_session_login(session, utf8_str(username).c_str(), utf8_str(password).c_str());
+void SpotifySession::login(QString username, QString password) {
+	sp_error error = sp_session_login(session, utf8_str(username).c_str(), utf8_str(password).c_str());
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
@@ -124,6 +125,11 @@ void SpotifySession::handle_notify_main_thread(sp_session* session) {
 		new QEvent(self->spotifyNotifyMainThreadEvent)
 	);
 }
+
+/*
+int music_delivery(...);
+void end_of_track();
+*/
 
 // These events happen on the main thread:
 void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
