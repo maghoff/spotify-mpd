@@ -34,7 +34,7 @@ QString parseQuoted(char const * & pos, const char* end) {
 			throw std::runtime_error("Missing terminating quotation mark in MPD message");
 		}
 
-		buffer.append(fragment_begin, fragment_end - fragment_begin);
+		buffer.append(QByteArray(fragment_begin, fragment_end - fragment_begin));
 
 		if (*fragment_end == '\\') {
 			if (fragment_end + 1 == end) {
