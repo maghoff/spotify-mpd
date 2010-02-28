@@ -1,9 +1,6 @@
 #include <iostream>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSettings>
-#include <Phonon/MediaObject>
-#include <Phonon/MediaSource>
-#include <Phonon/AudioOutput>
 #include "application.hpp"
 #include "spotifysession.hpp"
 
@@ -13,15 +10,6 @@ int main(int argc, char *argv[]) {
 	a.setApplicationName("spotify-mpd");
 
 	application app;
-
-	/*
-	Phonon::MediaObject *mediaObject = new Phonon::MediaObject(&app);
-	mediaObject->setCurrentSource(Phonon::MediaSource("/home/mag/Downloads/gishdemo/music/sewer.ogg"));
-	Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, &app);
-	Phonon::Path path = Phonon::createPath(mediaObject, audioOutput);
-
-	mediaObject->play();
-	*/
 
 	QSettings settings;
 

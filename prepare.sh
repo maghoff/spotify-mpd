@@ -5,4 +5,5 @@ then
     echo "NOTE: You need to procure appkey.c from somewhere"
 fi
 
-sudo apt-get install libqt4-dev libqt4-phonon-dev
+# Could be more precise, since we are only using the core and network qt modules:
+sudo apt-get install build-essential libqt4-dev
