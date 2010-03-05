@@ -27,7 +27,7 @@ then
 fi
 
 # Could be more precise, since we are only using the core and network qt modules:
-sudo apt-get install build-essential libqt4-dev curl
+sudo apt-get install build-essential libqt4-dev curl libboost-dev
 
 if ! libspotify_is_installed
 then

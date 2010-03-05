@@ -4,7 +4,13 @@
 #include "application.hpp"
 #include "spotifysession.hpp"
 
+#include "log.hpp"
+#include "console_logger.hpp"
+
 int main(int argc, char *argv[]) {
+	logger local_logger(new console_logger(log_level::ALL));
+	LLOG(TRACE, "Welcome");
+
 	QCoreApplication a(argc, argv);
 	a.setOrganizationName("No name; Zapp Brannigan");
 	a.setApplicationName("spotify-mpd");
