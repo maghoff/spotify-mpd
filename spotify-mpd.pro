@@ -6,6 +6,13 @@ QT -= gui
 TARGET = spotify-mpd
 CONFIG += console
 CONFIG -= app_bundle
+
+CONFIG += link_pkgconfig
+PKGCONFIG += libspotify alsa
+
+# To find libspotify.so more easily at runtime:
+LIBS += -Wl,-R/usr/local/lib
+
 TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
@@ -15,7 +22,8 @@ SOURCES += main.cpp \
     appkey.c \
     logger_base.cpp \
     log_message.cpp \
-    console_logger.cpp
+    console_logger.cpp \
+    import/alsa-audio.c
 HEADERS += application.hpp \
     mpd_utils.hpp \
     spotify.hpp \
@@ -25,7 +33,6 @@ HEADERS += application.hpp \
     log_level.hpp \
     logger_base.hpp \
     log_message.hpp \
-    console_logger.hpp
-LIBS += -L/usr/local/lib \
-    -Wl,-R/usr/local/lib \
-    -lspotify
+    console_logger.hpp \
+    import/queue.h \
+    import/audio.h
