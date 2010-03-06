@@ -20,6 +20,8 @@ public:
 
 	bool should_log(log_level_t);
 	void log(log_level_t, const std::string&);
+
+	logger create_sublogger(const std::string& name);
 };
 
 #endif // CONSOLE_LOGGER_HPP

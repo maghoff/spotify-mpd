@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	a.setOrganizationName("No name; Zapp Brannigan");
 	a.setApplicationName("spotify-mpd");
 
-	application app(local_logger);
+	application app(local_logger->create_sublogger("application"));
 
 	QSettings settings;
 
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	SpotifySession s(&app, local_logger);
+	SpotifySession s(&app, local_logger->create_sublogger("SpotifySession"));
 	s.login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
 	return a.exec();

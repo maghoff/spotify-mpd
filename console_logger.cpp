@@ -52,3 +52,9 @@ void console_logger::log(log_level_t level, const std::string& text) {
 
 	output(msg);
 }
+
+logger console_logger::create_sublogger(const std::string& name) {
+	boost::shared_ptr<console_logger> child(new console_logger(*this));
+	child->address.push_back(name);
+	return child;
+}
