@@ -24,10 +24,10 @@ int main(int argc, char *argv[]) {
 		(settings.value("username", "").toString().size() == 0) ||
 		(settings.value("password", "").toString().size() == 0)
 	) {
-		std::cerr <<
-			"ERROR: Please enter your spotify username and password in the "
-			"configuration file: '" << settings.fileName().toStdString() << '\'' <<
-			std::endl;
+		LLOG(ERROR,
+			"Please enter your spotify username and password in the "
+			"configuration file: '" << settings.fileName().toStdString() << '\''
+		);
 
 		// Write some junk to have the path and file created:
 		if (!settings.contains("username")) settings.setValue("username", "");
