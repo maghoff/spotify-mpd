@@ -5,9 +5,12 @@
 #include <QEvent>
 #include <QTimer>
 #include <spotify/api.h>
+#include "logger_base.hpp"
 
 class SpotifySession : public QObject {
 	Q_OBJECT
+
+	logger local_logger;
 
 	QEvent::Type spotifyNotifyMainThreadEvent;
 
@@ -27,7 +30,7 @@ class SpotifySession : public QObject {
 	void createSessionObject();
 
 public:
-	SpotifySession(QObject* parent);
+	SpotifySession(QObject* parent, const logger&);
 	~SpotifySession();
 
 	bool event(QEvent*);

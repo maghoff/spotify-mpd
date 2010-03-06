@@ -5,8 +5,9 @@
 #include <string>
 #include <QCoreApplication>
 #include <spotify/api.h>
-#include "spotifysession.hpp"
 #include "appkey.h"
+#include "log.hpp"
+#include "spotifysession.hpp"
 
 namespace {
 
@@ -21,8 +22,9 @@ SpotifySession* userdata(sp_session* session) {
 
 }
 
-SpotifySession::SpotifySession(QObject* parent) :
+SpotifySession::SpotifySession(QObject* parent, const logger& local_logger_) :
 	QObject(parent),
+	local_logger(local_logger_),
 	session(0)
 {
 	spotifyNotifyMainThreadEvent = static_cast<QEvent::Type>(QEvent::registerEventType());
@@ -113,13 +115,15 @@ void SpotifySession::login(QString username, QString password) {
 	}
 }
 
+// Logger macro for static members:
+#define STLOG(level, msg) SLOG(userdata(session)->local_logger, level, msg)
+
 // These events happen on a different thread than main_thread:
 void SpotifySession::handle_notify_main_thread(sp_session* session) {
-	std::cout << __FUNCTION__ << std::endl;
+	STLOG(OPERATION, __FUNCTION__);
 
 	SpotifySession* self = userdata(session);
 
-	std::cout << "notify_main_thread" << std::endl;
 	QCoreApplication::postEvent(
 		self,
 		new QEvent(self->spotifyNotifyMainThreadEvent)
@@ -133,7 +137,7 @@ void end_of_track();
 
 // These events happen on the main thread:
 void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
-	std::cout << __FUNCTION__ << std::endl;
+	STLOG(OPERATION, __FUNCTION__);
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
@@ -145,31 +149,31 @@ void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
 }
 
 void SpotifySession::handle_logged_out(sp_session* session) {
-	std::cout << __FUNCTION__ << std::endl;
+	STLOG(OPERATION, __FUNCTION__);
 	userdata(session)->loggedOut();
 }
 
 void SpotifySession::handle_metadata_updated(sp_session* session) {
-	std::cout << __FUNCTION__ << std::endl;
+	STLOG(OPERATION, __FUNCTION__);
 	userdata(session)->metadataUpdated();
 }
 
 void SpotifySession::handle_play_token_lost(sp_session* session) {
-	std::cout << __FUNCTION__ << std::endl;
+	STLOG(OPERATION, __FUNCTION__);
 	userdata(session)->playTokenLost();
 }
 
 void SpotifySession::handle_connection_error(sp_session* session, sp_error error) {
-	std::cout << __FUNCTION__ << ": " << sp_error_message(error) << std::endl;
+	STLOG(ERROR, __FUNCTION__ << ": " << sp_error_message(error));
 	userdata(session)->connectionError();
 }
 
 void SpotifySession::handle_message_to_user(sp_session* session, const char* msg) {
-	std::cout << __FUNCTION__ << ": " << msg << std::endl;
+	STLOG(NOTICE, __FUNCTION__ << ": " << msg);
 	userdata(session)->messageToUser(QString::fromUtf8(msg));
 }
 
 void SpotifySession::handle_log_message(sp_session* session, const char* msg) {
-	std::cout << __FUNCTION__ << ": " << msg << std::endl;
+	STLOG(OPERATION, __FUNCTION__ << ": " << msg);
 	userdata(session)->logMessage(QString::fromUtf8(msg));
 }

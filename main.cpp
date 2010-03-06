@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	SpotifySession s(&app);
+	SpotifySession s(&app, local_logger);
 	s.login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
 	return a.exec();
