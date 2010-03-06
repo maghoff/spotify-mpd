@@ -142,6 +142,9 @@ void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
 		ss << "failed to log in to spotify: " << sp_error_message(error);
+
+		// This exception propagates to the Qt event loop. This is not supported
+		// by Qt, so we should probably consider doing something else.
 		throw std::runtime_error(ss.str());
 	}
 
