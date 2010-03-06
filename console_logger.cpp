@@ -25,6 +25,8 @@ boost::local_time::local_date_time console_logger::timestamp() const {
 void console_logger::output(const log_message& msg) const {
 	std::ostream& out = std::cout;
 
+	// We should definitely colour the log output :)
+
 	out <<
 		std::setw(2) << std::setfill('0') << static_cast<int>(msg.log_level) << ' ' <<
 		msg.timestamp << ' ' <<

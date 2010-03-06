@@ -177,6 +177,7 @@ void SpotifySession::handle_message_to_user(sp_session* session, const char* msg
 }
 
 void SpotifySession::handle_log_message(sp_session* session, const char* msg) {
+	// We probably want to rstrip(msg, '\n') or split(msg, '\n') or something similar
 	STLOG(OPERATION, __FUNCTION__ << ": " << msg);
 	userdata(session)->logMessage(QString::fromUtf8(msg));
 }
