@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	a.setOrganizationName("No name; Zapp Brannigan");
 	a.setApplicationName("spotify-mpd");
 
-	application app;
+	application app(local_logger);
 
 	QSettings settings;
 

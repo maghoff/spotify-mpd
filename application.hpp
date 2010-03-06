@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTcpServer>
+#include "logger_base.hpp"
 
 class QIODevice;
 class QString;
@@ -11,6 +12,8 @@ template <typename K, typename V> class QHash;
 
 class application : public QObject {
 	Q_OBJECT
+
+	logger local_logger;
 
 	QTcpServer server;
 	QIODevice* io;
@@ -31,7 +34,7 @@ class application : public QObject {
 	int command_list_number;
 
 public:
-	application();
+	application(const logger&);
 	~application();
 
 private slots:

@@ -13,7 +13,11 @@ enum log_level_t {
 
 	NOTICE = 40,
 
-	OPERATION = 70,
+	OPERATION = 50,
+
+	INPUT = 60,
+
+	OUTPUT = 70,
 
 	ANALYSIS = 80,
 

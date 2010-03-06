@@ -1,11 +1,11 @@
 #include <cassert>
-#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <QString>
 #include <QVector>
 #include <QTcpSocket>
 #include "application.hpp"
+#include "log.hpp"
 #include "mpd_utils.hpp"
 
 class mpd_error : public std::runtime_error {
@@ -21,7 +21,9 @@ mpd_error::mpd_error(int code_, const std::string& description) :
 {
 }
 
-application::application() {
+application::application(const logger& local_logger_) :
+	local_logger(local_logger_)
+{
 	server.listen(QHostAddress::Any, 6601);
 	connect(&server, SIGNAL(newConnection()), this, SLOT(newConnection()));
 
@@ -41,9 +43,10 @@ application::~application() {
 }
 
 void application::newConnection() {
-	std::cout << "New connection" << std::endl;
+	LLOG(OPERATION, "New connection");
 
 	io = server.nextPendingConnection();
+
 	assert(io);
 
 	io->write("OK MPD 0.0.0\n");
@@ -64,12 +67,17 @@ void application::readMe() {
 }
 
 void application::processMessage(QVector<QString> msg) {
-	std::cout << "Handling message: [";
-	for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
-		if (i != msg.begin()) std::cout << ", ";
-		std::cout << '"' << (*i).toUtf8().data() << '\"';
+	if (local_logger->should_log(log_level::INPUT)) {
+		std::ostringstream ss;
+		ss << "Handling message: [";
+		for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
+			if (i != msg.begin()) ss << ", ";
+			ss << '"' << (*i).toUtf8().data() << '\"';
+		}
+		ss << ']';
+
+		local_logger->log(log_level::INPUT, ss.str());
 	}
-	std::cout << ']' << std::endl;
 
 	if (command_list_status == command_list_failed) {
 		if (msg.size() == 1 && msg[0] == "command_list_end") {
@@ -109,16 +117,20 @@ void application::processMessage(QVector<QString> msg) {
 			}
 		}
 	} else {
-		std::cout << "Unhandled message: [";
-		for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
-			if (i != msg.begin()) std::cout << ", ";
-			std::cout << '"' << (*i).toUtf8().data() << '\"';
+		if (local_logger->should_log(log_level::OPERATION)) {
+			std::stringstream ss;
+			ss << "Unhandled message: [";
+			for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
+				if (i != msg.begin()) ss << ", ";
+				ss << '"' << (*i).toUtf8().data() << '\"';
+			}
+			ss << ']';
+			local_logger->log(log_level::OPERATION, ss.str());
 		}
-		std::cout << ']' << std::endl;
 
 		//io->write("ACK [5@0] {} unknown command\n");
 
-		std::cout << "Cheating, and saying OK" << std::endl;
+		LLOG(OPERATION, "Cheating, and saying OK");
 		io->write("OK\n");
 	}
 	++command_list_number;
