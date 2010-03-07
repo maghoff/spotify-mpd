@@ -3,7 +3,7 @@
 #include <QtCore/QSettings>
 #include "application.hpp"
 #include "spotifysession.hpp"
-
+#include "alsaaudiooutput.hpp"
 #include "log.hpp"
 #include "console_logger.hpp"
 
@@ -36,6 +36,8 @@ int main(int argc, char *argv[]) {
 
 		return 1;
 	}
+
+	AlsaAudioOutput ao(&app, local_logger->create_sublogger("AlsaAudioOutput"));
 
 	SpotifySession s(&app, local_logger->create_sublogger("SpotifySession"));
 	s.login(settings.value("username", "").toString(), settings.value("password", "").toString());

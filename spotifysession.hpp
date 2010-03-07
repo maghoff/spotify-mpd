@@ -7,6 +7,8 @@
 #include <spotify/api.h>
 #include "logger_base.hpp"
 
+class AudioOutput;
+
 class SpotifySession : public QObject {
 	Q_OBJECT
 
@@ -16,6 +18,8 @@ class SpotifySession : public QObject {
 
 	sp_session *session;
 
+	AudioOutput *ao;
+
 	static void handle_notify_main_thread(sp_session*);
 	static void handle_logged_in(sp_session*, sp_error);
 	static void handle_logged_out(sp_session*);
@@ -24,6 +28,9 @@ class SpotifySession : public QObject {
 	static void handle_connection_error(sp_session*, sp_error);
 	static void handle_message_to_user(sp_session*, const char*);
 	static void handle_log_message(sp_session*, const char*);
+
+	static int handle_music_delivery(sp_session*, const sp_audioformat *format, const void *frames, int num_frames);
+	static void handle_end_of_track(sp_session*);
 
 	QTimer spotifyProcessEventsTimer;
 
@@ -47,11 +54,6 @@ signals:
 	void messageToUser(QString);
 	void playTokenLost();
 	void logMessage(QString);
-
-	/* Not handled:
-	int music_delivery(...);
-	void end_of_track();
-	*/
 };
 
 #endif // SPOTIFYSESSION_HPP

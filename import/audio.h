@@ -31,6 +31,9 @@
 #include <stdint.h>
 #include "queue.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* --- Types --- */
 typedef struct audio_fifo_data {
@@ -52,5 +55,9 @@ typedef struct audio_fifo {
 /* --- Functions --- */
 extern void audio_init(audio_fifo_t *af);
 extern void audio_fifo_flush(audio_fifo_t *af);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _JUKEBOX_AUDIO_H_ */

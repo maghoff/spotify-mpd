@@ -5,9 +5,11 @@
 #include <string>
 #include <QCoreApplication>
 #include <spotify/api.h>
+#include "audiooutput.hpp"
 #include "appkey.h"
 #include "log.hpp"
 #include "spotifysession.hpp"
+#include "musicdeliverydata.hpp"
 
 namespace {
 
@@ -22,7 +24,10 @@ SpotifySession* userdata(sp_session* session) {
 
 }
 
-SpotifySession::SpotifySession(QObject* parent, const logger& local_logger_) :
+SpotifySession::SpotifySession(
+	QObject* parent,
+	const logger& local_logger_
+) :
 	QObject(parent),
 	local_logger(local_logger_),
 	session(0)
@@ -181,4 +186,19 @@ void SpotifySession::handle_log_message(sp_session* session, const char* msg) {
 	// We probably want to rstrip(msg, '\n') or split(msg, '\n') or something similar
 	STLOG(OPERATION, __FUNCTION__ << ": " << msg);
 	userdata(session)->logMessage(QString::fromUtf8(msg));
+}
+
+int SpotifySession::handle_music_delivery(sp_session* session, const sp_audioformat *format, const void *frames, int num_frames) {
+	MusicDeliveryData d;
+
+	d.session = session;
+	d.format = format;
+	d.frames = frames;
+	d.num_frames = num_frames;
+
+	return userdata(session)->ao->musicDelivery(d);
+}
+
+void SpotifySession::handle_end_of_track(sp_session* session) {
+	userdata(session)->ao->endOfTrack();
 }
