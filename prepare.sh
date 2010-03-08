@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Could be more precise, since we are only using the core and network qt modules:
+PACKAGES="build-essential libqt4-dev curl libboost-dev libasound2-dev"
+
 function libspotify_is_installed {
     if [ -a /usr/local/libspotify.so ];
     then
@@ -31,8 +34,11 @@ then
     echo "NOTE: You need to procure appkey.c from somewhere"
 fi
 
-# Could be more precise, since we are only using the core and network qt modules:
-sudo apt-get install build-essential libqt4-dev curl libboost-dev libasound2-dev
+if ! dpkg -l $PACKAGES >/dev/null
+then
+    echo "Will install packages: $PACKAGES"
+    sudo apt-get install $PACKAGES
+fi
 
 if ! libspotify_is_installed
 then
