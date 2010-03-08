@@ -43,6 +43,8 @@ public:
 	bool event(QEvent*);
 	void login(QString username, QString password);
 
+	void setAudioOutput(AudioOutput*);
+
 private slots:
 	void spotifyNotifyMainThread();
 

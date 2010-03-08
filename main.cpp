@@ -37,9 +37,11 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	AlsaAudioOutput ao(&app, local_logger->create_sublogger("AlsaAudioOutput"));
-
 	SpotifySession s(&app, local_logger->create_sublogger("SpotifySession"));
+
+	AlsaAudioOutput ao(&s, local_logger->create_sublogger("AlsaAudioOutput"));
+	s.setAudioOutput(&ao);
+
 	s.login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
 	return a.exec();

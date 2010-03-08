@@ -30,7 +30,8 @@ SpotifySession::SpotifySession(
 ) :
 	QObject(parent),
 	local_logger(local_logger_),
-	session(0)
+	session(0),
+	ao(0)
 {
 	spotifyNotifyMainThreadEvent = static_cast<QEvent::Type>(QEvent::registerEventType());
 	spotifyProcessEventsTimer.setSingleShot(true);
@@ -120,6 +121,10 @@ void SpotifySession::login(QString username, QString password) {
 	}
 }
 
+void SpotifySession::setAudioOutput(AudioOutput* ao_) {
+	ao = ao_;
+}
+
 // Logger macro for static members:
 #define STLOG(level, msg) SLOG(userdata(session)->local_logger, level, msg)
 
@@ -189,6 +194,8 @@ void SpotifySession::handle_log_message(sp_session* session, const char* msg) {
 }
 
 int SpotifySession::handle_music_delivery(sp_session* session, const sp_audioformat *format, const void *frames, int num_frames) {
+	STLOG(OPERATION, __FUNCTION__);
+
 	MusicDeliveryData d;
 
 	d.session = session;
@@ -200,5 +207,7 @@ int SpotifySession::handle_music_delivery(sp_session* session, const sp_audiofor
 }
 
 void SpotifySession::handle_end_of_track(sp_session* session) {
+	STLOG(OPERATION, __FUNCTION__);
+
 	userdata(session)->ao->endOfTrack();
 }
