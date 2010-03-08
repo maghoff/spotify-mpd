@@ -1,7 +1,12 @@
 #!/bin/bash
 
 function libspotify_is_installed {
-    return [ -a /usr/local/libspotify.so ]
+    if [ -a /usr/local/libspotify.so ];
+    then
+        return 1
+    else
+        return 0
+    fi
 }
 
 function install_libspotify {
