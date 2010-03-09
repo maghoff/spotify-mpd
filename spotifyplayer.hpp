@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include "spotifytrack.hpp"
 #include "logger_base.hpp"
 
 class SpotifySession;
@@ -13,6 +14,7 @@ class SpotifyPlayer : public QObject {
 	SpotifySession* session;
 	logger local_logger;
 	QUrl trackUrl;
+	SpotifyTrack track;
 
 public:
 	// The SpotifySession-object is used as parent for QObject

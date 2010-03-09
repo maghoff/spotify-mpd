@@ -16,6 +16,8 @@ public:
 	SpotifyTrack& operator = (const SpotifyTrack&);
 
 	sp_track* get() const { return p; }
+
+	bool isLoaded() const;
 };
 
 #endif // SPOTIFYTRACK_HPP

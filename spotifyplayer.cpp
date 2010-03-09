@@ -2,6 +2,7 @@
 #include "spotifylink.hpp"
 #include "spotifyplayer.hpp"
 #include "spotifysession.hpp"
+#include "spotifytrack.hpp"
 #include "log.hpp"
 
 SpotifyPlayer::SpotifyPlayer(SpotifySession* session_, const logger& local_logger_, QUrl trackUrl_) :
@@ -15,6 +16,8 @@ SpotifyPlayer::SpotifyPlayer(SpotifySession* session_, const logger& local_logge
 	connect(session, SIGNAL(metadataUpdated()), this, SLOT(metadataUpdated()));
 
 	SpotifyLink link(trackUrl);
+	track = SpotifyTrack(link);
+	if (!track.get()) LLOG(ERROR, "Not a track link");
 }
 
 SpotifyPlayer::~SpotifyPlayer() {
@@ -23,4 +26,9 @@ SpotifyPlayer::~SpotifyPlayer() {
 
 void SpotifyPlayer::metadataUpdated() {
 	LLOG(TRACE, __FUNCTION__);
+
+	if (track.isLoaded()) {
+		session->playerLoad(track);
+		session->playerPlay(true);
+	}
 }

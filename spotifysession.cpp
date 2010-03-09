@@ -9,6 +9,7 @@
 #include "appkey.h"
 #include "log.hpp"
 #include "spotifysession.hpp"
+#include "spotifytrack.hpp"
 #include "musicdeliverydata.hpp"
 
 namespace {
@@ -140,10 +141,25 @@ void SpotifySession::handle_notify_main_thread(sp_session* session) {
 	);
 }
 
-/*
-int music_delivery(...);
-void end_of_track();
-*/
+void SpotifySession::playerLoad(const SpotifyTrack& track) {
+	sp_error error = sp_session_player_load(session, track.get());
+
+	if (error != SP_ERROR_OK) {
+		std::ostringstream ss;
+		ss << "sp_session_player_load: " << sp_error_message(error);
+		throw std::runtime_error(ss.str());
+	}
+}
+
+void SpotifySession::playerPlay(bool play) {
+	sp_error error = sp_session_player_play(session, play);
+
+	if (error != SP_ERROR_OK) {
+		std::ostringstream ss;
+		ss << "sp_session_player_play: " << sp_error_message(error);
+		throw std::runtime_error(ss.str());
+	}
+}
 
 // These events happen on the main thread:
 void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {

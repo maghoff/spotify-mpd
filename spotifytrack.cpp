@@ -24,3 +24,7 @@ SpotifyTrack& SpotifyTrack::operator = (const SpotifyTrack& rhs) {
 	sp_track_add_ref(p);
 	return *this;
 }
+
+bool SpotifyTrack::isLoaded() const {
+	return sp_track_is_loaded(p);
+}

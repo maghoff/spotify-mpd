@@ -8,6 +8,7 @@
 #include "logger_base.hpp"
 
 class AudioOutput;
+class SpotifyTrack;
 
 class SpotifySession : public QObject {
 	Q_OBJECT
@@ -44,6 +45,9 @@ public:
 	void login(QString username, QString password);
 
 	void setAudioOutput(AudioOutput*);
+
+	void playerLoad(const SpotifyTrack&);
+	void playerPlay(bool);
 
 private slots:
 	void spotifyNotifyMainThread();
