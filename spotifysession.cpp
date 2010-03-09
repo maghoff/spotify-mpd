@@ -88,16 +88,16 @@ void SpotifySession::createSessionObject() {
 
 	// Register the callbacks.
 	static sp_session_callbacks callbacks = {
-		&handle_logged_in, // logged_in
-		&handle_logged_out, // logged_out
-		&handle_metadata_updated, // metadata_updated
-		&handle_connection_error, // connection_error
-		&handle_message_to_user, // message_to_user
-		&handle_notify_main_thread, // notify_main_thread
-		0, // music_delivery
-		&handle_play_token_lost, // play_token_lost
-		&handle_log_message, // log_message
-		0  // end_of_track
+		&handle_logged_in,
+		&handle_logged_out,
+		&handle_metadata_updated,
+		&handle_connection_error,
+		&handle_message_to_user,
+		&handle_notify_main_thread,
+		&handle_music_delivery,
+		&handle_play_token_lost,
+		&handle_log_message,
+		&handle_end_of_track
 	};
 
 	config.callbacks = &callbacks;
