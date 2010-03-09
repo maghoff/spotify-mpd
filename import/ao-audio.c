@@ -51,14 +51,11 @@ static void* ao_audio_start(void *aux) {
             cur_channels = afd->channels;
 
             output = init_ao(afd);
-            fprintf(stderr, "Reinitializing AO\n");
         }
-        fprintf(stderr, "Playing %lu samples.\n", sizeof(int16_t)*afd->nsamples*afd->channels);
         ao_play(output, (void*)afd->samples, sizeof(int16_t)*afd->nsamples*afd->channels);
         free(afd);
     }
     if (output) {
-        fprintf(stderr, "Closing AO\n");
         ao_close(output);
     }
 }
