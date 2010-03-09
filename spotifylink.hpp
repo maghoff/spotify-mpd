@@ -15,6 +15,8 @@ public:
 
 	SpotifyLink(const SpotifyLink&);
 	SpotifyLink& operator = (const SpotifyLink&);
+
+	sp_link* get() const { return p; }
 };
 
 #endif // SPOTIFYLINK_HPP
