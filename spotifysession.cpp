@@ -126,21 +126,6 @@ void SpotifySession::setAudioOutput(AudioOutput* ao_) {
 	ao = ao_;
 }
 
-// Logger macro for static members:
-#define STLOG(level, msg) SLOG(userdata(session)->local_logger, level, msg)
-
-// These events happen on a different thread than main_thread:
-void SpotifySession::handle_notify_main_thread(sp_session* session) {
-	STLOG(OPERATION, __FUNCTION__);
-
-	SpotifySession* self = userdata(session);
-
-	QCoreApplication::postEvent(
-		self,
-		new QEvent(self->spotifyNotifyMainThreadEvent)
-	);
-}
-
 void SpotifySession::playerLoad(const SpotifyTrack& track) {
 	sp_error error = sp_session_player_load(session, track.get());
 
@@ -161,9 +146,24 @@ void SpotifySession::playerPlay(bool play) {
 	}
 }
 
+// Logger macro for static members:
+#define STLOG(level, msg) SLOG(userdata(session)->local_logger, level, msg)
+
+// These events happen on a different thread than main_thread:
+void SpotifySession::handle_notify_main_thread(sp_session* session) {
+	STLOG(TRACE, __FUNCTION__);
+
+	SpotifySession* self = userdata(session);
+
+	QCoreApplication::postEvent(
+		self,
+		new QEvent(self->spotifyNotifyMainThreadEvent)
+	);
+}
+
 // These events happen on the main thread:
 void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
-	STLOG(OPERATION, __FUNCTION__);
+	STLOG(TRACE, __FUNCTION__);
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
@@ -179,17 +179,17 @@ void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
 }
 
 void SpotifySession::handle_logged_out(sp_session* session) {
-	STLOG(OPERATION, __FUNCTION__);
+	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->loggedOut();
 }
 
 void SpotifySession::handle_metadata_updated(sp_session* session) {
-	STLOG(OPERATION, __FUNCTION__);
+	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->metadataUpdated();
 }
 
 void SpotifySession::handle_play_token_lost(sp_session* session) {
-	STLOG(OPERATION, __FUNCTION__);
+	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->playTokenLost();
 }
 
@@ -205,12 +205,12 @@ void SpotifySession::handle_message_to_user(sp_session* session, const char* msg
 
 void SpotifySession::handle_log_message(sp_session* session, const char* msg) {
 	// We probably want to rstrip(msg, '\n') or split(msg, '\n') or something similar
-	STLOG(OPERATION, __FUNCTION__ << ": " << msg);
+	STLOG(TRACE, __FUNCTION__ << ": " << msg);
 	userdata(session)->logMessage(QString::fromUtf8(msg));
 }
 
 int SpotifySession::handle_music_delivery(sp_session* session, const sp_audioformat *format, const void *frames, int num_frames) {
-	STLOG(OPERATION, __FUNCTION__);
+//	STLOG(TRACE, __FUNCTION__);
 
 	MusicDeliveryData d;
 
@@ -223,7 +223,7 @@ int SpotifySession::handle_music_delivery(sp_session* session, const sp_audiofor
 }
 
 void SpotifySession::handle_end_of_track(sp_session* session) {
-	STLOG(OPERATION, __FUNCTION__);
+//	STLOG(TRACE, __FUNCTION__);
 
 	userdata(session)->ao->endOfTrack();
 }

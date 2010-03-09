@@ -19,7 +19,7 @@ AlsaAudioOutput::AlsaAudioOutput(QObject* parent, const logger& local_logger_) :
 
 // This function is adapted from the similar one in the jukebox-example bundled with libspotify
 int AlsaAudioOutput::musicDelivery(const MusicDeliveryData& d) {
-	LLOG(TRACE, __FUNCTION__);
+//	LLOG(TRACE, __FUNCTION__);
 
 	audio_fifo_t *af = &audiofifo;
 	audio_fifo_data_t *afd;
@@ -58,7 +58,7 @@ int AlsaAudioOutput::musicDelivery(const MusicDeliveryData& d) {
 
 // This function is adapted from the similar one in the jukebox-example bundled with libspotify
 void AlsaAudioOutput::endOfTrack() {
-	LLOG(TRACE, __FUNCTION__);
+//	LLOG(TRACE, __FUNCTION__);
 
 	pthread_mutex_lock(&notify_mutex);
 	playback_done = true;
