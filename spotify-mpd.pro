@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     console_logger.cpp \
     import/alsa-audio.c \
     audiooutput.cpp \
-    alsaaudiooutput.cpp
+    alsaaudiooutput.cpp \
+    spotifyplayer.cpp
 HEADERS += application.hpp \
     mpd_utils.hpp \
     spotify.hpp \
@@ -39,4 +40,5 @@ HEADERS += application.hpp \
     import/audio.h \
     audiooutput.hpp \
     alsaaudiooutput.hpp \
-    musicdeliverydata.hpp
+    musicdeliverydata.hpp \
+    spotifyplayer.hpp

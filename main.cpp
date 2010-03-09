@@ -3,6 +3,7 @@
 #include <QtCore/QSettings>
 #include "application.hpp"
 #include "spotifysession.hpp"
+#include "spotifyplayer.hpp"
 #include "alsaaudiooutput.hpp"
 #include "log.hpp"
 #include "console_logger.hpp"
@@ -43,6 +44,8 @@ int main(int argc, char *argv[]) {
 	s.setAudioOutput(&ao);
 
 	s.login(settings.value("username", "").toString(), settings.value("password", "").toString());
+
+	SpotifyPlayer p(&s, local_logger->create_sublogger("player"), QUrl("spotify:track:6JEK0CvvjDjjMUBFoXShNZ"));
 
 	return a.exec();
 }
