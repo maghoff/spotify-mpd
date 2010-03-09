@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Could be more precise, since we are only using the core and network qt modules:
-PACKAGES="build-essential libqt4-dev curl libboost-dev libasound2-dev"
+PACKAGES="build-essential libqt4-dev curl libboost-dev libasound2-dev libao-dev"
 
 function libspotify_is_installed {
     if [ -a /usr/local/libspotify.so ];
