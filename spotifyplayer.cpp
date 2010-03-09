@@ -9,6 +9,7 @@ SpotifyPlayer::SpotifyPlayer(SpotifySession* session_, const logger& local_logge
 	QObject(session_),
 	session(session_),
 	local_logger(local_logger_),
+	isPlaying(false),
 	trackUrl(trackUrl_)
 {
 	LLOG(TRACE, __FUNCTION__);
@@ -27,8 +28,10 @@ SpotifyPlayer::~SpotifyPlayer() {
 void SpotifyPlayer::metadataUpdated() {
 	LLOG(TRACE, __FUNCTION__);
 
-	if (track.isLoaded()) {
+	if (track.isLoaded() && !isPlaying) {
+		LLOG(OPERATION, "Track is loaded");
 		session->playerLoad(track);
 		session->playerPlay(true);
+		isPlaying = true;
 	}
 }

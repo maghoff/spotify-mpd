@@ -13,6 +13,7 @@ class SpotifyPlayer : public QObject {
 
 	SpotifySession* session;
 	logger local_logger;
+	bool isPlaying;
 	QUrl trackUrl;
 	SpotifyTrack track;
 
