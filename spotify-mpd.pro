@@ -8,10 +8,13 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG += link_pkgconfig
 PKGCONFIG += libspotify \
-    alsa
+    ao
 
 # To find libspotify.so more easily at runtime:
-LIBS += -Wl,-R/usr/local/lib
+linux {
+    LIBS += -Wl,-R/usr/local/lib
+}
+
 TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
@@ -21,7 +24,7 @@ SOURCES += main.cpp \
     logger_base.cpp \
     log_message.cpp \
     console_logger.cpp \
-    import/alsa-audio.c \
+    import/ao-audio.c \
     audiooutput.cpp \
     alsaaudiooutput.cpp \
     spotifyplayer.cpp \
