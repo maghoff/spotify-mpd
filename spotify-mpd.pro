@@ -27,7 +27,9 @@ SOURCES += main.cpp \
     alsaaudiooutput.cpp \
     spotifyplayer.cpp \
     spotifylink.cpp \
-    spotifytrack.cpp
+    spotifytrack.cpp \
+    mpdserver.cpp \
+    mpdlistener.cpp
 HEADERS += application.hpp \
     mpd_utils.hpp \
     spotify.hpp \
@@ -45,4 +47,6 @@ HEADERS += application.hpp \
     musicdeliverydata.hpp \
     spotifyplayer.hpp \
     spotifylink.hpp \
-    spotifytrack.hpp
+    spotifytrack.hpp \
+    mpdserver.hpp \
+    mpdlistener.hpp
