@@ -1,5 +1,7 @@
-#include "spotifysession.hpp"
+#include <spotify/api.h>
+#include "spotifylink.hpp"
 #include "spotifyplayer.hpp"
+#include "spotifysession.hpp"
 #include "log.hpp"
 
 SpotifyPlayer::SpotifyPlayer(SpotifySession* session_, const logger& local_logger_, QUrl trackUrl_) :
@@ -11,6 +13,8 @@ SpotifyPlayer::SpotifyPlayer(SpotifySession* session_, const logger& local_logge
 	LLOG(TRACE, __FUNCTION__);
 
 	connect(session, SIGNAL(metadataUpdated()), this, SLOT(metadataUpdated()));
+
+	SpotifyLink link(trackUrl);
 }
 
 SpotifyPlayer::~SpotifyPlayer() {
