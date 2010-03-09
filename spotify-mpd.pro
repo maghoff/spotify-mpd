@@ -16,7 +16,6 @@ TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
     mpd_utils.cpp \
-    spotify.cpp \
     spotifysession.cpp \
     appkey.c \
     logger_base.cpp \
@@ -32,7 +31,6 @@ SOURCES += main.cpp \
     mpdlistener.cpp
 HEADERS += application.hpp \
     mpd_utils.hpp \
-    spotify.hpp \
     spotifysession.hpp \
     appkey.h \
     log.hpp \
