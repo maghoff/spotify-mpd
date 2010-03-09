@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include <QCoreApplication>
+#include <QStringList>
 #include <spotify/api.h>
 #include "audiooutput.hpp"
 #include "appkey.h"
@@ -31,6 +32,7 @@ SpotifySession::SpotifySession(
 ) :
 	QObject(parent),
 	local_logger(local_logger_),
+	spotify_logger(local_logger_->create_sublogger("libspotify")),
 	session(0),
 	ao(0)
 {
@@ -203,10 +205,15 @@ void SpotifySession::handle_message_to_user(sp_session* session, const char* msg
 	userdata(session)->messageToUser(QString::fromUtf8(msg));
 }
 
-void SpotifySession::handle_log_message(sp_session* session, const char* msg) {
-	// We probably want to rstrip(msg, '\n') or split(msg, '\n') or something similar
-	STLOG(TRACE, __FUNCTION__ << ": " << msg);
-	userdata(session)->logMessage(QString::fromUtf8(msg));
+void SpotifySession::handle_log_message(sp_session* session, const char* data) {
+	logger& local_logger = userdata(session)->spotify_logger;
+
+	if (!local_logger->should_log(log_level::OPERATION)) return;
+
+	QStringList msgs = QString::fromUtf8(data).split('\n', QString::SkipEmptyParts);
+	foreach (QString msg, msgs) {
+		LLOG(OPERATION, utf8_str(msg));
+	}
 }
 
 int SpotifySession::handle_music_delivery(sp_session* session, const sp_audioformat *format, const void *frames, int num_frames) {

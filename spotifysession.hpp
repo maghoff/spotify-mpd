@@ -13,7 +13,7 @@ class SpotifyTrack;
 class SpotifySession : public QObject {
 	Q_OBJECT
 
-	logger local_logger;
+	logger local_logger, spotify_logger;
 
 	QEvent::Type spotifyNotifyMainThreadEvent;
 
@@ -59,7 +59,6 @@ signals:
 	void connectionError(/* error code */);
 	void messageToUser(QString);
 	void playTokenLost();
-	void logMessage(QString);
 };
 
 #endif // SPOTIFYSESSION_HPP
