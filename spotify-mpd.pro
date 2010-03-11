@@ -11,7 +11,7 @@ PKGCONFIG += libspotify \
     ao
 
 # To find libspotify.so more easily at runtime:
-linux {
+unix {
     LIBS += -Wl,-R/usr/local/lib
 }
 
