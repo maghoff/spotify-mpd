@@ -37,11 +37,14 @@ MPDServer::MPDServer(QObject* parent, const logger& local_logger_, QIODevice* io
 	DICT_BIND(command_list_end);
 	DICT_BIND(status);
 	DICT_BIND(currentsong);
+	DICT_BIND(outputs);
+	DICT_BIND(playlistinfo);
+	DICT_BIND(playlistid);
 
 	#undef DICT_BIND
 
 	assert(io);
-	io->write("OK MPD 0.0.0\n");
+	io->write("OK MPD 0.15.0\n");
 	connect(io, SIGNAL(readyRead()), this, SLOT(readMe()));
 }
 
@@ -154,6 +157,51 @@ void MPDServer::mpd_command_list_end(QVector<QString> msg) {
 void MPDServer::mpd_currentsong(QVector<QString> msg) {
 	assert(msg.size() == 1);
 	// We are not playing any song ;)
+
+	io->write(
+		"file: albums/bob_marley/songs_of_freedom/disc_four/12.bob_marley_-_could_you_be_loved_(12 cm_mix).flac\n"
+		"Time: 327\n"
+		"Album: Songs Of Freedom - Disc Four\n"
+		"Artist: Bob Marley\n"
+		"Title: Could You Be Loved (12 cm Mix)\n"
+		"Track: 12\n"
+		"Pos: 11\n"
+		"Id: 6601\n"
+	);
+}
+
+void MPDServer::mpd_playlistinfo(QVector<QString> msg) {
+	assert(msg.size() >= 1);
+	assert(msg.size() <= 2);
+	// We are not playing any song ;)
+
+	io->write(
+		"file: albums/bob_marley/songs_of_freedom/disc_four/12.bob_marley_-_could_you_be_loved_(12 cm_mix).flac\n"
+		"Time: 327\n"
+		"Album: Songs Of Freedom - Disc Four\n"
+		"Artist: Bob Marley\n"
+		"Title: Could You Be Loved (12 cm Mix)\n"
+		"Track: 12\n"
+		"Pos: 11\n"
+		"Id: 6601\n"
+	);
+}
+
+void MPDServer::mpd_playlistid(QVector<QString> msg) {
+	assert(msg.size() >= 1);
+	assert(msg.size() <= 2);
+	// We are not playing any song ;)
+
+	io->write(
+		"file: albums/bob_marley/songs_of_freedom/disc_four/12.bob_marley_-_could_you_be_loved_(12 cm_mix).flac\n"
+		"Time: 327\n"
+		"Album: Songs Of Freedom - Disc Four\n"
+		"Artist: Bob Marley\n"
+		"Title: Could You Be Loved (12 cm Mix)\n"
+		"Track: 12\n"
+		"Pos: 11\n"
+		"Id: 6601\n"
+	);
 }
 
 void MPDServer::mpd_status(QVector<QString> msg) {
@@ -166,8 +214,33 @@ void MPDServer::mpd_status(QVector<QString> msg) {
 		"single: 0\n"
 		"consume: 0\n"
 		"playlist: 1\n"
+		"playlistlength: 1\n"
+		"xfade: 0\n"
+		"state: play\n"
+		"song: 1\n"
+		"songid: 6601\n"
+		"time: 500:1000\n"
+
+	);
+/*	io->write(
+		"volume: 100\n"
+		"repeat: 0\n"
+		"random: 0\n"
+		"single: 0\n"
+		"consume: 0\n"
+		"playlist: 2\n"
 		"playlistlength: 0\n"
 		"xfade: 0\n"
 		"state: stop\n"
+	);*/
+}
+
+void MPDServer::mpd_outputs(QVector<QString> msg) {
+	assert(msg.size() == 1);
+	// Let's see how little we can get away with ;)
+	io->write(
+		"outputid: 0\n"
+		"outputname: ALSA\n"
+		"outputenabled: 1\n"
 	);
 }

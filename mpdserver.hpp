@@ -47,6 +47,9 @@ private:
 	void mpd_command_list_end(QVector<QString> msg);
 	void mpd_currentsong(QVector<QString> msg);
 	void mpd_status(QVector<QString> msg);
+	void mpd_outputs(QVector<QString> msg);
+	void mpd_playlistinfo(QVector<QString> msg);
+	void mpd_playlistid(QVector<QString> msg);
 };
 
 #endif // MPDSERVER_HPP
