@@ -9,7 +9,7 @@
 #include "console_logger.hpp"
 
 int main(int argc, char *argv[]) {
-	logger local_logger(new console_logger(log_level::ALL));
+	logger local_logger(new console_logger(log_level::INPUT));
 	LLOG(TRACE, "Welcome");
 
 	QCoreApplication a(argc, argv);
