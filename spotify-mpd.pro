@@ -2,8 +2,8 @@
 # Project created by QtCreator 2010-02-26T20:00:27
 # -------------------------------------------------
 QT += network \
-	script \
-	console
+    script \
+    console
 QT -= gui
 TARGET = spotify-mpd
 CONFIG += console
@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     spotifytrack.cpp \
     mpdserver.cpp \
     mpdlistener.cpp \
-    scriptenvironment.cpp
+    scriptenvironment.cpp \
+    scriptlistener.cpp
 HEADERS += application.hpp \
     mpd_utils.hpp \
     spotifysession.hpp \
@@ -52,4 +53,5 @@ HEADERS += application.hpp \
     mpdserver.hpp \
     mpdlistener.hpp \
     scriptenvironment.hpp \
-    qlog.hpp
+    qlog.hpp \
+    scriptlistener.hpp

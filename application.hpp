@@ -9,6 +9,7 @@ class SpotifySession;
 class SpotifyPlayer;
 class AudioOutput;
 class ScriptEnvironment;
+class ScriptListener;
 
 class application : public QObject {
 	Q_OBJECT
@@ -21,6 +22,7 @@ class application : public QObject {
 	SpotifySession* session;
 	SpotifyPlayer* player;
 	ScriptEnvironment* script;
+	ScriptListener* scriptListener;
 
 public:
 	application(const logger&);

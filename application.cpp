@@ -6,6 +6,7 @@
 #include "alsaaudiooutput.hpp"
 #include "mpdlistener.hpp"
 #include "scriptenvironment.hpp"
+#include "scriptlistener.hpp"
 #include "spotifyplayer.hpp"
 #include "spotifysession.hpp"
 #include "log.hpp"
@@ -43,6 +44,8 @@ application::application(const logger& local_logger_) :
 	session->login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
 	player = new SpotifyPlayer(session, local_logger->create_sublogger("player"), QUrl("spotify:track:6JEK0CvvjDjjMUBFoXShNZ"));
+
+	scriptListener = new ScriptListener(this, local_logger->create_sublogger("script_listener"));
 
 	QTcpSocket* stdIO = new QTcpSocket(this);
 	stdIO->setSocketDescriptor(0);
