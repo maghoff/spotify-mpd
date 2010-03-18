@@ -45,11 +45,11 @@ void ScriptEnvironment::readyRead() {
 
 			unexecutedBuffer.clear();
 		}
-	}
 
-	if (unexecutedBuffer.size() == 0) {
-		ts << ">>> ";
-	} else {
-		ts << "... ";
+		if (unexecutedBuffer.size() == 0) {
+			ts << ">>> ";
+		} else {
+			ts << "... ";
+		}
 	}
 }
