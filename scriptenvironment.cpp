@@ -39,7 +39,9 @@ void ScriptEnvironment::readyRead() {
 			QScriptValue ret = engine->evaluate(unexecutedBuffer);
 			QLOG(TRACE, "Evaluated to: \"" << QString(ret.toString()).replace("\n", "\\n") << '"');
 
-			ts << ret.toString() << '\n';
+			if (!ret.isUndefined()) {
+				ts << ret.toString() << '\n';
+			}
 
 			unexecutedBuffer.clear();
 		}
