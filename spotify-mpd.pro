@@ -1,7 +1,9 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-02-26T20:00:27
 # -------------------------------------------------
-QT += network
+QT += network \
+	script \
+	console
 QT -= gui
 TARGET = spotify-mpd
 CONFIG += console
@@ -11,10 +13,7 @@ PKGCONFIG += libspotify \
     ao
 
 # To find libspotify.so more easily at runtime:
-unix {
-    LIBS += -Wl,-R/usr/local/lib
-}
-
+unix:LIBS += -Wl,-R/usr/local/lib
 TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
@@ -31,7 +30,8 @@ SOURCES += main.cpp \
     spotifylink.cpp \
     spotifytrack.cpp \
     mpdserver.cpp \
-    mpdlistener.cpp
+    mpdlistener.cpp \
+    scriptenvironment.cpp
 HEADERS += application.hpp \
     mpd_utils.hpp \
     spotifysession.hpp \
@@ -50,4 +50,6 @@ HEADERS += application.hpp \
     spotifylink.hpp \
     spotifytrack.hpp \
     mpdserver.hpp \
-    mpdlistener.hpp
+    mpdlistener.hpp \
+    scriptenvironment.hpp \
+    qlog.hpp
