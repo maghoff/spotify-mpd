@@ -1,10 +1,10 @@
 #include <spotify/api.h>
-#include "alsaaudiooutput.hpp"
+#include "aoaudiooutput.hpp"
 #include "import/audio.h"
 #include "musicdeliverydata.hpp"
 #include "log.hpp"
 
-AlsaAudioOutput::AlsaAudioOutput(QObject* parent, const logger& local_logger_) :
+AOAudioOutput::AOAudioOutput(QObject* parent, const logger& local_logger_) :
 	AudioOutput(parent),
 	local_logger(local_logger_),
 	playback_done(false)
@@ -18,7 +18,7 @@ AlsaAudioOutput::AlsaAudioOutput(QObject* parent, const logger& local_logger_) :
 }
 
 // This function is adapted from the similar one in the jukebox-example bundled with libspotify
-int AlsaAudioOutput::musicDelivery(const MusicDeliveryData& d) {
+int AOAudioOutput::musicDelivery(const MusicDeliveryData& d) {
 //	LLOG(TRACE, __FUNCTION__);
 
 	audio_fifo_t *af = &audiofifo;
@@ -57,7 +57,7 @@ int AlsaAudioOutput::musicDelivery(const MusicDeliveryData& d) {
 }
 
 // This function is adapted from the similar one in the jukebox-example bundled with libspotify
-void AlsaAudioOutput::endOfTrack() {
+void AOAudioOutput::endOfTrack() {
 //	LLOG(TRACE, __FUNCTION__);
 
 	pthread_mutex_lock(&notify_mutex);

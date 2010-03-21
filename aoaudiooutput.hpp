@@ -6,7 +6,7 @@
 #include "logger_base.hpp"
 #include "import/audio.h"
 
-class AlsaAudioOutput : public AudioOutput {
+class AOAudioOutput : public AudioOutput {
 	logger local_logger;
 
 	audio_fifo_t audiofifo;
@@ -15,7 +15,7 @@ class AlsaAudioOutput : public AudioOutput {
 	pthread_cond_t notify_cond;
 
 public:
-	AlsaAudioOutput(QObject* parent, const logger&);
+	AOAudioOutput(QObject* parent, const logger&);
 
 	int musicDelivery(const MusicDeliveryData&);
 	void endOfTrack();
