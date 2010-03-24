@@ -9,8 +9,9 @@
 	if (logger->should_log(log_level::level)) do { \
 		QByteArray data; \
 		{ \
-			/* QTextStream chooses the default locale for the system */ \
 			QTextStream ts(&data); \
+			/* Log messages should be utf-8 encoded */ \
+			ts.setCodec("UTF-8"); \
 			ts << msg; \
 		} \
 		logger->log(log_level::level, std::string(data.begin(), data.end())); \
