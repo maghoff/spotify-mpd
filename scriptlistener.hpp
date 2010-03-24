@@ -11,10 +11,12 @@ class ScriptListener : public QObject {
 
 	logger local_logger;
 
+	QObject* environment;
+
 	QTcpServer* server;
 
 public:
-	ScriptListener(QObject* parent, const logger& local_logger_);
+	ScriptListener(QObject* parent, const logger& local_logger_, QObject* environment);
 	~ScriptListener();
 
 private slots:

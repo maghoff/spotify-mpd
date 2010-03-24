@@ -27,6 +27,7 @@ public:
 
 public slots:
 	void play(QUrl);
+	void play(QString);
 
 private slots:
 	void metadataUpdated();

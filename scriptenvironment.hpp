@@ -18,7 +18,7 @@ class ScriptEnvironment : public QObject {
 	QString unexecutedBuffer;
 
 public:
-	ScriptEnvironment(QObject* parent, const logger&, QIODevice*);
+	ScriptEnvironment(QObject* parent, const logger&, QObject* environment, QIODevice*);
 	~ScriptEnvironment();
 
 private slots:

@@ -39,6 +39,10 @@ void SpotifyPlayer::play(QUrl trackUrl_) {
 	tryPlay();
 }
 
+void SpotifyPlayer::play(QString trackUrl_) {
+	play(QUrl(trackUrl_));
+}
+
 void SpotifyPlayer::metadataUpdated() {
 	LLOG(TRACE, __FUNCTION__);
 	tryPlay();

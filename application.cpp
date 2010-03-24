@@ -44,14 +44,14 @@ application::application(const logger& local_logger_) :
 	session->login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
 	player = new SpotifyPlayer(session, local_logger->create_sublogger("player"));
-	player->play(QUrl("spotify:track:6JEK0CvvjDjjMUBFoXShNZ"));
+	player->setObjectName("player");
 
-	scriptListener = new ScriptListener(this, local_logger->create_sublogger("script_listener"));
+	scriptListener = new ScriptListener(this, local_logger->create_sublogger("script_listener"), this);
 
 	QTcpSocket* stdIO = new QTcpSocket(this);
 	stdIO->setSocketDescriptor(0);
 
-	script = new ScriptEnvironment(this, local_logger->create_sublogger("script_console"), stdIO);
+	script = new ScriptEnvironment(this, local_logger->create_sublogger("script_console"), this, stdIO);
 }
 
 application::~application() {

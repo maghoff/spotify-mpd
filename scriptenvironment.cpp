@@ -5,13 +5,16 @@
 #include "scriptenvironment.hpp"
 #include "qlog.hpp"
 
-ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger_, QIODevice* io_) :
+ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger_, QObject* environment, QIODevice* io_) :
 	QObject(parent),
 	local_logger(local_logger_),
 	io(io_),
 	engine(new QScriptEngine(this))
 {
 	QLOG(TRACE, "Constructed");
+
+	QScriptValue applicationObject = engine->newQObject(environment);
+	engine->globalObject().setProperty("application", applicationObject);
 
 	assert(io);
 	connect(io, SIGNAL(readyRead()), this, SLOT(readyRead()));
