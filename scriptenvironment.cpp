@@ -31,7 +31,7 @@ void ScriptEnvironment::readyRead() {
 
 	while (io->canReadLine()) {
 		QByteArray line = io->readLine();
-		QLOG(TRACE, "Read: \"" << QString(line).replace("\n", "\\n") << '"');
+		QLOG(INPUT, "Read: \"" << QString(line).replace("\n", "\\n") << '"');
 		unexecutedBuffer += QString::fromUtf8(line.constData(), line.size());
 
 		if (engine->canEvaluate(unexecutedBuffer)) {
