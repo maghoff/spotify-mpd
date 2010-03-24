@@ -3,7 +3,7 @@
 #include <QSettings>
 #include <QString>
 #include "application.hpp"
-#include "alsaaudiooutput.hpp"
+#include "aoaudiooutput.hpp"
 #include "mpdlistener.hpp"
 #include "scriptenvironment.hpp"
 #include "scriptlistener.hpp"
@@ -38,7 +38,7 @@ application::application(const logger& local_logger_) :
 
 	session = new SpotifySession(this, local_logger->create_sublogger("session"));
 
-	ao = new AlsaAudioOutput(session, local_logger->create_sublogger("AlsaAudioOutput"));
+	ao = new AOAudioOutput(session, local_logger->create_sublogger("AOAudioOutput"));
 	session->setAudioOutput(ao);
 
 	session->login(settings.value("username", "").toString(), settings.value("password", "").toString());

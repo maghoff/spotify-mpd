@@ -25,7 +25,7 @@ SOURCES += main.cpp \
     console_logger.cpp \
     import/ao-audio.c \
     audiooutput.cpp \
-    alsaaudiooutput.cpp \
+    aoaudiooutput.cpp \
     spotifyplayer.cpp \
     spotifylink.cpp \
     spotifytrack.cpp \
@@ -45,7 +45,7 @@ HEADERS += application.hpp \
     import/queue.h \
     import/audio.h \
     audiooutput.hpp \
-    alsaaudiooutput.hpp \
+    aoaudiooutput.hpp \
     musicdeliverydata.hpp \
     spotifyplayer.hpp \
     spotifylink.hpp \
