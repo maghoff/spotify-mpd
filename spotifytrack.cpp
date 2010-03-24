@@ -26,5 +26,5 @@ SpotifyTrack& SpotifyTrack::operator = (const SpotifyTrack& rhs) {
 }
 
 bool SpotifyTrack::isLoaded() const {
-	return sp_track_is_loaded(p);
+	return p && sp_track_is_loaded(p);
 }

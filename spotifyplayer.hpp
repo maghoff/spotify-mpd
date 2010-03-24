@@ -17,11 +17,16 @@ class SpotifyPlayer : public QObject {
 	QUrl trackUrl;
 	SpotifyTrack track;
 
+	void tryPlay();
+
 public:
 	// The SpotifySession-object is used as parent for QObject
-	SpotifyPlayer(SpotifySession*, const logger&, QUrl);
+	SpotifyPlayer(SpotifySession*, const logger&);
 
 	~SpotifyPlayer();
+
+public slots:
+	void play(QUrl);
 
 private slots:
 	void metadataUpdated();
