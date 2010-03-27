@@ -2,9 +2,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QSettings>
 #include "application.hpp"
-#include "spotifysession.hpp"
-#include "spotifyplayer.hpp"
-#include "alsaaudiooutput.hpp"
 #include "log.hpp"
 #include "console_logger.hpp"
 
