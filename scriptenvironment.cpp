@@ -4,8 +4,9 @@
 #include <QTextStream>
 #include <spotify/api.h>
 #include "scriptenvironment.hpp"
-#include "spotifylink.hpp"
+#include "spotifyartist.hpp"
 #include "spotifyalbum.hpp"
+#include "spotifylink.hpp"
 #include "spotifytrack.hpp"
 #include "qlog.hpp"
 
@@ -18,8 +19,9 @@ QObject* resolveLink(QString url) {
 	if (l.get() == 0) return 0; //< invalid link
 
 	switch (sp_link_type(l.get())) {
-	case SP_LINKTYPE_ALBUM: return new SpotifyAlbum(l);
 	case SP_LINKTYPE_TRACK: return new SpotifyTrack(l);
+	case SP_LINKTYPE_ALBUM: return new SpotifyAlbum(l);
+	case SP_LINKTYPE_ARTIST: return new SpotifyArtist(l);
 	default: return 0;
 	};
 }
@@ -40,6 +42,7 @@ QScriptValue wrapResolveLink(QScriptContext* context, QScriptEngine* engine) {
 	}
 
 QOBJECT_QSCRIPT_CONVERTERS(SpotifyAlbum)
+QOBJECT_QSCRIPT_CONVERTERS(SpotifyArtist)
 QOBJECT_QSCRIPT_CONVERTERS(SpotifyTrack)
 
 }
@@ -62,6 +65,7 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 		qScriptRegisterMetaType(engine, &scriptValueFrom##Type, &scriptValueTo##Type);
 
 	REGISTER(SpotifyAlbum)
+	REGISTER(SpotifyArtist)
 	REGISTER(SpotifyTrack)
 
 	#undef REGISTER
