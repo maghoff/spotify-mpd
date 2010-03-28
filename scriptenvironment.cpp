@@ -2,8 +2,33 @@
 #include <QScriptEngine>
 #include <QString>
 #include <QTextStream>
+#include <spotify/api.h>
 #include "scriptenvironment.hpp"
+#include "spotifylink.hpp"
+#include "spotifytrack.hpp"
 #include "qlog.hpp"
+
+namespace {
+
+// The caller must take ownership of the returned object
+QObject* resolveLink(QString url) {
+	SpotifyLink l(url);
+
+	if (l.get() == 0) return 0; //< invalid link
+
+	switch (sp_link_type(l.get())) {
+	case SP_LINKTYPE_TRACK: return new SpotifyTrack(l);
+	default: return 0;
+	};
+}
+
+QScriptValue wrapResolveLink(QScriptContext* context, QScriptEngine* engine) {
+	if (context->argumentCount() != 1) return QScriptValue();
+	QObject* obj = resolveLink(context->argument(0).toString());
+	return engine->newQObject(obj, QScriptEngine::ScriptOwnership);
+}
+
+}
 
 ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger_, QObject* environment, QIODevice* io_) :
 	QObject(parent),
@@ -15,6 +40,9 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 
 	QScriptValue applicationObject = engine->newQObject(environment);
 	engine->globalObject().setProperty("application", applicationObject);
+
+	QScriptValue resolveLinkObject = engine->newFunction(wrapResolveLink, 1);
+	engine->globalObject().setProperty("resolveLink", resolveLinkObject);
 
 	assert(io);
 	connect(io, SIGNAL(readyRead()), this, SLOT(readyRead()));

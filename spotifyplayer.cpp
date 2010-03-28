@@ -21,7 +21,7 @@ SpotifyPlayer::~SpotifyPlayer() {
 }
 
 void SpotifyPlayer::tryPlay() {
-	if (track.isLoaded() && !isPlaying) {
+	if (track.get() && track.isLoaded() && !isPlaying) {
 		LLOG(OPERATION, "Track is loaded");
 		session->playerLoad(track);
 		session->playerPlay(true);
