@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QTime>
 #include "spotifyalbum.hpp"
+#include "spotifyartist.hpp"
 
 struct sp_track;
 class SpotifyLink;
@@ -29,7 +30,8 @@ public:
 
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
-	// Q_INVOKABLE QVector<SpotifyArtist> artists() const;
+	Q_INVOKABLE int numArtists() const;
+	Q_INVOKABLE SpotifyArtist* artist(int) const;
 	Q_INVOKABLE SpotifyAlbum* album() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE QTime duration() const;

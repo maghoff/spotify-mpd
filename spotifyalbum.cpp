@@ -18,6 +18,10 @@ bool SpotifyAlbum::isAvailable() const {
 	return sp_album_is_available(p);
 }
 
+SpotifyArtist* SpotifyAlbum::artist() const {
+	return new SpotifyArtist(sp_album_artist(p));
+}
+
 QString SpotifyAlbum::name() const {
 	return QString::fromUtf8(sp_album_name(p));
 }

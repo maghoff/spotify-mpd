@@ -1,3 +1,4 @@
+#include <cassert>
 #include <spotify/api.h>
 #include "spotifylink.hpp"
 #include "spotifytrack.hpp"
@@ -18,7 +19,15 @@ bool SpotifyTrack::isAvailable() const {
 	return sp_track_is_available(p);
 }
 
-// QVector<SpotifyArtist> SpotifyTrack::artists() const { }
+int SpotifyTrack::numArtists() const {
+	return sp_track_num_artists(p);
+}
+
+SpotifyArtist* SpotifyTrack::artist(int index) const {
+	assert(index >= 0);
+	assert(index < numArtists());
+	return new SpotifyArtist(sp_track_artist(p, index));
+}
 
 SpotifyAlbum* SpotifyTrack::album() const {
 	return new SpotifyAlbum(sp_track_album(p));

@@ -3,6 +3,7 @@
 
 #include <QMetaType>
 #include <QObject>
+#include "spotifyartist.hpp"
 
 class sp_album;
 class SpotifyLink;
@@ -27,7 +28,7 @@ public:
 
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
-	// Q_INVOKABLE SpotifyArtist artist() const;
+	Q_INVOKABLE SpotifyArtist* artist() const;
 	// Q_INVOKABLE ? cover() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE int year() const;
