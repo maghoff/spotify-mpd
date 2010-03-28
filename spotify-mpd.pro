@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     mpdserver.cpp \
     mpdlistener.cpp \
     scriptenvironment.cpp \
-    scriptlistener.cpp
+    scriptlistener.cpp \
+    spotifyalbum.cpp
 HEADERS += application.hpp \
     mpd_utils.hpp \
     spotifysession.hpp \
@@ -54,4 +55,6 @@ HEADERS += application.hpp \
     mpdlistener.hpp \
     scriptenvironment.hpp \
     qlog.hpp \
-    scriptlistener.hpp
+    scriptlistener.hpp \
+    spotifyalbum.hpp \
+    spotifyobjectwrapper.hpp

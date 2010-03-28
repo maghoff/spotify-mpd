@@ -5,6 +5,7 @@
 #include <spotify/api.h>
 #include "scriptenvironment.hpp"
 #include "spotifylink.hpp"
+#include "spotifyalbum.hpp"
 #include "spotifytrack.hpp"
 #include "qlog.hpp"
 
@@ -17,6 +18,7 @@ QObject* resolveLink(QString url) {
 	if (l.get() == 0) return 0; //< invalid link
 
 	switch (sp_link_type(l.get())) {
+	case SP_LINKTYPE_ALBUM: return new SpotifyAlbum(l);
 	case SP_LINKTYPE_TRACK: return new SpotifyTrack(l);
 	default: return 0;
 	};
@@ -27,6 +29,18 @@ QScriptValue wrapResolveLink(QScriptContext* context, QScriptEngine* engine) {
 	QObject* obj = resolveLink(context->argument(0).toString());
 	return engine->newQObject(obj, QScriptEngine::ScriptOwnership);
 }
+
+#define QOBJECT_QSCRIPT_CONVERTERS(Type) \
+	QScriptValue scriptValueFrom##Type(QScriptEngine *engine, Type* const &in) { \
+		return engine->newQObject(in); \
+	} \
+	\
+	void scriptValueTo##Type(const QScriptValue &object, Type* &out) { \
+		out = qobject_cast<Type*>(object.toQObject()); \
+	}
+
+QOBJECT_QSCRIPT_CONVERTERS(SpotifyAlbum)
+QOBJECT_QSCRIPT_CONVERTERS(SpotifyTrack)
 
 }
 
@@ -43,6 +57,14 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 
 	QScriptValue resolveLinkObject = engine->newFunction(wrapResolveLink, 1);
 	engine->globalObject().setProperty("resolveLink", resolveLinkObject);
+
+	#define REGISTER(Type) \
+		qScriptRegisterMetaType(engine, &scriptValueFrom##Type, &scriptValueTo##Type);
+
+	REGISTER(SpotifyAlbum)
+	REGISTER(SpotifyTrack)
+
+	#undef REGISTER
 
 	assert(io);
 	connect(io, SIGNAL(readyRead()), this, SLOT(readyRead()));

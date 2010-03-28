@@ -1,10 +1,12 @@
 #ifndef SPOTIFYTRACK_HPP
 #define SPOTIFYTRACK_HPP
 
+#include <QMetaType>
 #include <QObject>
 #include <QTime>
+#include "spotifyalbum.hpp"
 
-class sp_track;
+struct sp_track;
 class SpotifyLink;
 
 class SpotifyTrack : public QObject {
@@ -14,6 +16,7 @@ class SpotifyTrack : public QObject {
 
 public:
 	SpotifyTrack();
+	SpotifyTrack(sp_track*); //< This will not add a ref
 	SpotifyTrack(const SpotifyLink&);
 	~SpotifyTrack();
 
@@ -27,7 +30,7 @@ public:
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
 	// Q_INVOKABLE QVector<SpotifyArtist> artists() const;
-	// Q_INVOKABLE SpotifyAlbum album() const;
+	Q_INVOKABLE SpotifyAlbum* album() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE QTime duration() const;
 	Q_INVOKABLE int popularity() const; //< 0 <= popularity <= 100
@@ -42,5 +45,7 @@ public:
 	   or browse album result (otherwise returns 0). */
 	Q_INVOKABLE int index() const;
 };
+
+Q_DECLARE_METATYPE(SpotifyTrack*)
 
 #endif // SPOTIFYTRACK_HPP
