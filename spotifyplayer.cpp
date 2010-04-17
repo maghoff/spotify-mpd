@@ -43,6 +43,16 @@ void SpotifyPlayer::play(QString trackUrl_) {
 	play(QUrl(trackUrl_));
 }
 
+void SpotifyPlayer::play_track(SpotifyTrack *track_) {
+	if (track_ && track_->get()) {
+		track = *track_;
+		isPlaying=false;
+		tryPlay();
+	} else {
+		LLOG(ERROR, "Supplied track is invalid.");
+	}
+}
+
 void SpotifyPlayer::metadataUpdated() {
 	LLOG(TRACE, __FUNCTION__);
 	tryPlay();

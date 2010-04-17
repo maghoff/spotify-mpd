@@ -28,7 +28,7 @@ public:
 public slots:
 	void play(QUrl);
 	void play(QString);
-
+	void play_track(SpotifyTrack*);
 private slots:
 	void metadataUpdated();
 };
