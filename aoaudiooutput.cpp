@@ -1,4 +1,4 @@
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "aoaudiooutput.hpp"
 #include "import/audio.h"
 #include "musicdeliverydata.hpp"

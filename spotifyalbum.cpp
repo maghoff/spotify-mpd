@@ -1,4 +1,4 @@
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "spotifylink.hpp"
 #include "spotifyalbum.hpp"
 #include "spotifyobjectwrapper.hpp"

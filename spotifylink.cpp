@@ -1,4 +1,4 @@
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "spotifylink.hpp"
 
 SpotifyLink::SpotifyLink() : p(0) {

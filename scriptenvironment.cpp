@@ -3,7 +3,7 @@
 #include <QScriptEngine>
 #include <QString>
 #include <QTextStream>
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "scriptenvironment.hpp"
 #include "spotifyartist.hpp"
 #include "spotifyalbum.hpp"

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QEvent>
 #include <QTimer>
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "logger_base.hpp"
 
 class AudioOutput;

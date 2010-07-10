@@ -1,5 +1,5 @@
 #include <cassert>
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "spotifylink.hpp"
 #include "spotifytrack.hpp"
 #include "spotifyobjectwrapper.hpp"

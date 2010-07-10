@@ -5,7 +5,7 @@
 #include <string>
 #include <QCoreApplication>
 #include <QStringList>
-#include <spotify/api.h>
+#include <libspotify/api.h>
 #include "audiooutput.hpp"
 #include "appkey.h"
 #include "log.hpp"
