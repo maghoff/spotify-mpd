@@ -21,8 +21,9 @@ class application : public QObject {
 	AudioOutput* ao;
 	SpotifySession* session;
 	SpotifyPlayer* player;
-	ScriptEnvironment* script;
 	ScriptListener* scriptListener;
+
+	ScriptEnvironment* terminal;
 
 public:
 	application(const logger&);

@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <stdexcept>
 #include <QTcpSocket>
 #include <QSettings>
@@ -48,10 +49,19 @@ application::application(const logger& local_logger_) :
 
 	scriptListener = new ScriptListener(this, local_logger->create_sublogger("script_listener"), this);
 
-	QTcpSocket* stdIO = new QTcpSocket(this);
-	stdIO->setSocketDescriptor(0);
+	// Inspired by http://stackoverflow.com/questions/1312922/detect-if-stdin-is-a-terminal-or-pipe-in-c-c-qt/1312957#1312957
+	unsigned stdin_fileno = fileno(stdin);
 
-	script = new ScriptEnvironment(this, local_logger->create_sublogger("script_console"), this, stdIO);
+	if (isatty(stdin_fileno)) {
+		LLOG(ANALYSIS, "stdio is a terminal. Enabling interactive session");
+		QTcpSocket* stdIO = new QTcpSocket(this);
+		stdIO->setSocketDescriptor(stdin_fileno);
+
+		terminal = new ScriptEnvironment(this, local_logger->create_sublogger("script_console"), this, stdIO);
+	} else {
+		LLOG(ANALYSIS, "stdio is not a terminal. Not enabling interactive session");
+		terminal = 0;
+	}
 }
 
 application::~application() {
