@@ -84,6 +84,12 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 
 	#undef REGISTER
 
+	engine->evaluate(
+		"app = application;\n"
+		"p = app.spotify.player;\n"
+		"t = terminate;\n"
+	);
+
 	assert(io);
 	connect(io, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
