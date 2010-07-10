@@ -29,18 +29,24 @@ void SpotifyPlayer::tryPlay() {
 	}
 }
 
-void SpotifyPlayer::play(QUrl trackUrl_) {
-	trackUrl = trackUrl_;
-	SpotifyLink link(trackUrl);
-	track = SpotifyTrack(link);
+void SpotifyPlayer::playTrack(SpotifyTrack* t) {
+	track = *t;
+	track.setParent(this);
 	if (!track.get()) LLOG(ERROR, "Not a track link");
 
 	isPlaying = false;
 	tryPlay();
 }
 
-void SpotifyPlayer::play(QString trackUrl_) {
-	play(QUrl(trackUrl_));
+void SpotifyPlayer::playUri(QUrl trackUrl_) {
+	trackUrl = trackUrl_;
+	SpotifyLink link(trackUrl);
+	SpotifyTrack t(link);
+	playTrack(&t);
+}
+
+void SpotifyPlayer::playUri(QString trackUrl_) {
+	playUri(QUrl(trackUrl_));
 }
 
 void SpotifyPlayer::metadataUpdated() {

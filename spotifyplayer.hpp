@@ -26,8 +26,9 @@ public:
 	~SpotifyPlayer();
 
 public slots:
-	void play(QUrl);
-	void play(QString);
+	void playTrack(SpotifyTrack*);
+	void playUri(QUrl);
+	void playUri(QString);
 
 private slots:
 	void metadataUpdated();
