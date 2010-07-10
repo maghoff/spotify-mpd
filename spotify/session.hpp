@@ -1,6 +1,7 @@
 #ifndef SPOTIFYSESSION_HPP
 #define SPOTIFYSESSION_HPP
 
+#include <QMetaType>
 #include <QObject>
 #include <QEvent>
 #include <QTimer>
@@ -11,6 +12,8 @@ class AudioOutput;
 
 namespace Spotify {
 
+class Album;
+class PlaylistContainer;
 class Track;
 
 class Session : public QObject {
@@ -54,6 +57,9 @@ public:
 	void playerLoad(const Track&);
 	void playerPlay(bool);
 
+	// Caller must take ownership of returned value.
+	Q_INVOKABLE Spotify::PlaylistContainer* playlistContainer();
+
 private slots:
 	void spotifyNotifyMainThread();
 
@@ -69,5 +75,7 @@ signals:
 };
 
 }
+
+Q_DECLARE_METATYPE(Spotify::Session*)
 
 #endif // SPOTIFYSESSION_HPP

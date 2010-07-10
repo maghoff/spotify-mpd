@@ -2,13 +2,9 @@
 # Project created by QtCreator 2010-02-26T20:00:27
 # -------------------------------------------------
 QT += network \
-	script
+    script
 QT -= gui
-
-win32 {
-	QT += console
-}
-
+win32:QT += console
 TARGET = spotify-mpd
 CONFIG += console
 CONFIG -= app_bundle
@@ -19,7 +15,6 @@ PKGCONFIG += libspotify \
 # To find libspotify.so more easily at runtime:
 unix:LIBS += -Wl,-R/usr/local/lib
 TEMPLATE = app
-
 SOURCES += main.cpp \
     application.cpp \
     logger_base.cpp \
@@ -33,14 +28,14 @@ SOURCES += main.cpp \
     mpd/mpd_utils.cpp \
     mpd/mpdserver.cpp \
     mpd/mpdlistener.cpp \
-	spotify/appkey.c \
-	spotify/session.cpp \
+    spotify/appkey.c \
+    spotify/session.cpp \
     spotify/player.cpp \
     spotify/link.cpp \
     spotify/track.cpp \
     spotify/album.cpp \
-    spotify/artist.cpp
-
+    spotify/artist.cpp \
+    spotify/playlistcontainer.cpp
 HEADERS += application.hpp \
     log.hpp \
     log_level.hpp \
@@ -65,5 +60,5 @@ HEADERS += application.hpp \
     spotify/track.hpp \
     spotify/album.hpp \
     spotify/objectwrapper.hpp \
-    spotify/artist.hpp
-
+    spotify/artist.hpp \
+    spotify/playlistcontainer.hpp

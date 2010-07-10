@@ -7,6 +7,7 @@
 #include "scriptenvironment.hpp"
 #include "spotify/artist.hpp"
 #include "spotify/album.hpp"
+#include "spotify/playlistcontainer.hpp"
 #include "spotify/link.hpp"
 #include "spotify/track.hpp"
 #include "qlog.hpp"
@@ -54,6 +55,7 @@ QScriptValue wrapTerminate(QScriptContext* context, QScriptEngine*) {
 
 QOBJECT_QSCRIPT_CONVERTERS(Album)
 QOBJECT_QSCRIPT_CONVERTERS(Artist)
+QOBJECT_QSCRIPT_CONVERTERS(PlaylistContainer)
 QOBJECT_QSCRIPT_CONVERTERS(Track)
 
 }
@@ -80,6 +82,7 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 
 	REGISTER(Album)
 	REGISTER(Artist)
+	REGISTER(PlaylistContainer)
 	REGISTER(Track)
 
 	#undef REGISTER

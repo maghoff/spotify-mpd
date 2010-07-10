@@ -9,6 +9,7 @@
 #include "audiooutput.hpp"
 #include "appkey.h"
 #include "log.hpp"
+#include "playlistcontainer.hpp"
 #include "session.hpp"
 #include "track.hpp"
 #include "musicdeliverydata.hpp"
@@ -150,6 +151,15 @@ void Session::playerPlay(bool play) {
 		ss << "sp_session_player_play: " << sp_error_message(error);
 		throw std::runtime_error(ss.str());
 	}
+}
+
+PlaylistContainer* Session::playlistContainer() {
+	sp_playlistcontainer* p = sp_session_playlistcontainer(session);
+	if (!p) return 0;
+
+	PlaylistContainer* pc = new PlaylistContainer(p);
+	pc->setParent(this);
+	return pc;
 }
 
 // Logger macro for static members:
