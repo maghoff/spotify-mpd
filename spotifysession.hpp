@@ -29,6 +29,8 @@ class SpotifySession : public QObject {
 	static void handle_connection_error(sp_session*, sp_error);
 	static void handle_message_to_user(sp_session*, const char*);
 	static void handle_log_message(sp_session*, const char*);
+	static void handle_streaming_error(sp_session*, sp_error);
+	static void handle_userinfo_updated(sp_session*);
 
 	static int handle_music_delivery(sp_session*, const sp_audioformat *format, const void *frames, int num_frames);
 	static void handle_end_of_track(sp_session*);
@@ -59,6 +61,8 @@ signals:
 	void connectionError(/* error code */);
 	void messageToUser(QString);
 	void playTokenLost();
+	void streamingError(/* error code */);
+	void userinfoUpdated();
 };
 
 #endif // SPOTIFYSESSION_HPP

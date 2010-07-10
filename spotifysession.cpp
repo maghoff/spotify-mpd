@@ -100,7 +100,9 @@ void SpotifySession::createSessionObject() {
 		&handle_music_delivery,
 		&handle_play_token_lost,
 		&handle_log_message,
-		&handle_end_of_track
+		&handle_end_of_track,
+		&handle_streaming_error,
+		&handle_userinfo_updated
 	};
 
 	config.callbacks = &callbacks;
@@ -233,4 +235,14 @@ void SpotifySession::handle_end_of_track(sp_session* session) {
 //	STLOG(TRACE, __FUNCTION__);
 
 	userdata(session)->ao->endOfTrack();
+}
+
+void SpotifySession::handle_streaming_error(sp_session* session, sp_error error) {
+	STLOG(ERROR, __FUNCTION__ << ": " << sp_error_message(error));
+	userdata(session)->streamingError();
+}
+
+void SpotifySession::handle_userinfo_updated(sp_session* session) {
+	STLOG(TRACE, __FUNCTION__);
+	userdata(session)->userinfoUpdated();
 }
