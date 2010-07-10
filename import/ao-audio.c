@@ -58,6 +58,8 @@ static void* ao_audio_start(void *aux) {
     if (output) {
         ao_close(output);
     }
+
+    return 0; //< Never used.
 }
 
 
