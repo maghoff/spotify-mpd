@@ -81,6 +81,37 @@ ScriptEnvironment::~ScriptEnvironment() {
 	QLOG(TRACE, "Destructed");
 }
 
+QString repr(const QString in) {
+	QString result;
+	QTextStream ts(&result, QIODevice::WriteOnly);
+
+	ts << '"';
+
+	QByteArray inUtf8 = in.toUtf8();
+	foreach (char c, inUtf8) {
+		if (c < 0x20 || c >= 0x7F) {
+			if (c == '\t') ts << "\\t";
+			else if (c == '\r') ts << "\\r";
+			else if (c == '\n') ts << "\\n";
+			else {
+				ts << "\\x";
+				ts.setPadChar('0');
+				ts.setFieldWidth(2);
+				ts << hex << (unsigned)(unsigned char)c;
+				ts.setFieldWidth(0);
+			}
+		} else {
+			if (c == '\\' || c == '"') ts << '\\';
+			ts << c;
+		}
+	}
+
+	ts << '"';
+
+	ts.flush();
+	return result;
+}
+
 void ScriptEnvironment::readyRead() {
 	QLOG(TRACE, __FUNCTION__);
 
@@ -88,13 +119,13 @@ void ScriptEnvironment::readyRead() {
 
 	while (io->canReadLine()) {
 		QByteArray line = io->readLine();
-		QLOG(INPUT, "Read: \"" << QString(line).replace("\n", "\\n") << '"');
+		QLOG(INPUT, "Read: " << repr(line));
 		unexecutedBuffer += QString::fromUtf8(line.constData(), line.size());
 
 		if (engine->canEvaluate(unexecutedBuffer)) {
-			QLOG(TRACE, "Evaluating: \"" << QString(unexecutedBuffer).replace("\n", "\\n") << '"');
+			QLOG(TRACE, "Evaluating: " << repr(unexecutedBuffer));
 			QScriptValue ret = engine->evaluate(unexecutedBuffer);
-			QLOG(TRACE, "Evaluated to: \"" << QString(ret.toString()).replace("\n", "\\n") << '"');
+			QLOG(TRACE, "Evaluated to: " << repr(ret.toString()));
 
 			if (!ret.isUndefined()) {
 				ts << ret.toString() << '\n';
