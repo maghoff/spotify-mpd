@@ -20,8 +20,19 @@ ScriptListener::ScriptListener(QObject* parent, const logger& local_logger_, QOb
 	environment(environment_)
 {
 	server = new QTcpServer(this);
-	server->listen(QHostAddress::Any, 6602);
 	connect(server, SIGNAL(newConnection()), this, SLOT(newConnection()));
+
+	const unsigned short port = 6602;
+
+	bool ok = server->listen(QHostAddress::Any, port);
+	if (ok) {
+		LLOG(STATE, "Listening on port " << port);
+	} else {
+		LLOG(WARNING,
+			"Unable to listen on port " << port << ". "
+			"Check for other running instances."
+		);
+	}
 }
 
 ScriptListener::~ScriptListener() {
