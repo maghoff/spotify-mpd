@@ -8,6 +8,9 @@
 #include "logger_base.hpp"
 
 class AudioOutput;
+
+namespace Spotify {
+
 class SpotifyTrack;
 
 class SpotifySession : public QObject {
@@ -64,5 +67,7 @@ signals:
 	void streamingError(/* error code */);
 	void userinfoUpdated();
 };
+
+}
 
 #endif // SPOTIFYSESSION_HPP

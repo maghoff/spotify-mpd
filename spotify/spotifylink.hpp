@@ -5,6 +5,8 @@
 
 class sp_link;
 
+namespace Spotify {
+
 class SpotifyLink {
 	sp_link* p;
 
@@ -18,5 +20,7 @@ public:
 
 	sp_link* get() const { return p; }
 };
+
+}
 
 #endif // SPOTIFYLINK_HPP

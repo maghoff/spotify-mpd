@@ -6,6 +6,9 @@
 #include "spotifyartist.hpp"
 
 class sp_album;
+
+namespace Spotify {
+
 class SpotifyLink;
 
 class SpotifyAlbum : public QObject {
@@ -35,6 +38,8 @@ public:
 	// Q_INVOKABLE ? type() const;
 };
 
-Q_DECLARE_METATYPE(SpotifyAlbum*)
+}
+
+Q_DECLARE_METATYPE(Spotify::SpotifyAlbum*)
 
 #endif // SPOTIFYALBUM_HPP

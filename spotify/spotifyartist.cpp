@@ -3,6 +3,8 @@
 #include "spotifylink.hpp"
 #include "spotifyobjectwrapper.hpp"
 
+namespace Spotify {
+
 SPOTIFY_OBJECT_WRAPPER(Artist, artist)
 
 SpotifyArtist::SpotifyArtist(const SpotifyLink& link) {
@@ -16,4 +18,6 @@ bool SpotifyArtist::isLoaded() const {
 
 QString SpotifyArtist::name() const {
 	return QString::fromUtf8(sp_artist_name(p));
+}
+
 }

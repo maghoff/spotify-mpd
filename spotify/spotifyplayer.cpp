@@ -5,6 +5,8 @@
 #include "spotifytrack.hpp"
 #include "log.hpp"
 
+namespace Spotify {
+
 SpotifyPlayer::SpotifyPlayer(SpotifySession* session_, const logger& local_logger_) :
 	QObject(session_),
 	session(session_),
@@ -52,4 +54,6 @@ void SpotifyPlayer::playUri(QString trackUrl_) {
 void SpotifyPlayer::metadataUpdated() {
 	LLOG(TRACE, __FUNCTION__);
 	tryPlay();
+}
+
 }

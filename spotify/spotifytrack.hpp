@@ -8,6 +8,9 @@
 #include "spotifyartist.hpp"
 
 struct sp_track;
+
+namespace Spotify {
+
 class SpotifyLink;
 
 class SpotifyTrack : public QObject {
@@ -48,6 +51,8 @@ public:
 	Q_INVOKABLE int index() const;
 };
 
-Q_DECLARE_METATYPE(SpotifyTrack*)
+}
+
+Q_DECLARE_METATYPE(Spotify::SpotifyTrack*)
 
 #endif // SPOTIFYTRACK_HPP

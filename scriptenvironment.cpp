@@ -15,14 +15,14 @@ namespace {
 
 // The caller must take ownership of the returned object
 QObject* resolveLink(QString url) {
-	SpotifyLink l(url);
+	Spotify::SpotifyLink l(url);
 
 	if (l.get() == 0) return 0; //< invalid link
 
 	switch (sp_link_type(l.get())) {
-	case SP_LINKTYPE_TRACK: return new SpotifyTrack(l);
-	case SP_LINKTYPE_ALBUM: return new SpotifyAlbum(l);
-	case SP_LINKTYPE_ARTIST: return new SpotifyArtist(l);
+	case SP_LINKTYPE_TRACK: return new Spotify::SpotifyTrack(l);
+	case SP_LINKTYPE_ALBUM: return new Spotify::SpotifyAlbum(l);
+	case SP_LINKTYPE_ARTIST: return new Spotify::SpotifyArtist(l);
 	default: return 0;
 	};
 }
@@ -44,12 +44,12 @@ QScriptValue wrapTerminate(QScriptContext* context, QScriptEngine*) {
 }
 
 #define QOBJECT_QSCRIPT_CONVERTERS(Type) \
-	QScriptValue scriptValueFrom##Type(QScriptEngine *engine, Type* const &in) { \
+	QScriptValue scriptValueFrom##Type(QScriptEngine *engine, Spotify::Type* const &in) { \
 		return engine->newQObject(in); \
 	} \
 	\
-	void scriptValueTo##Type(const QScriptValue &object, Type* &out) { \
-		out = qobject_cast<Type*>(object.toQObject()); \
+	void scriptValueTo##Type(const QScriptValue &object, Spotify::Type* &out) { \
+		out = qobject_cast<Spotify::Type*>(object.toQObject()); \
 	}
 
 QOBJECT_QSCRIPT_CONVERTERS(SpotifyAlbum)

@@ -13,6 +13,8 @@
 #include "spotifytrack.hpp"
 #include "musicdeliverydata.hpp"
 
+namespace Spotify {
+
 namespace {
 
 std::string utf8_str(QString s) {
@@ -245,4 +247,6 @@ void SpotifySession::handle_streaming_error(sp_session* session, sp_error error)
 void SpotifySession::handle_userinfo_updated(sp_session* session) {
 	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->userinfoUpdated();
+}
+
 }

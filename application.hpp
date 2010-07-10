@@ -5,11 +5,14 @@
 #include "logger_base.hpp"
 
 class MPDListener;
-class SpotifySession;
-class SpotifyPlayer;
 class AudioOutput;
 class ScriptEnvironment;
 class ScriptListener;
+
+namespace Spotify {
+	class SpotifySession;
+	class SpotifyPlayer;
+}
 
 class application : public QObject {
 	Q_OBJECT
@@ -19,8 +22,8 @@ class application : public QObject {
 	MPDListener* mpd_listener;
 
 	AudioOutput* ao;
-	SpotifySession* session;
-	SpotifyPlayer* player;
+	Spotify::SpotifySession* session;
+	Spotify::SpotifyPlayer* player;
 	ScriptListener* scriptListener;
 
 	ScriptEnvironment* terminal;

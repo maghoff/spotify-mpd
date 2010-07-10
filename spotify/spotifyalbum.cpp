@@ -3,6 +3,8 @@
 #include "spotifyalbum.hpp"
 #include "spotifyobjectwrapper.hpp"
 
+namespace Spotify {
+
 SPOTIFY_OBJECT_WRAPPER(Album, album)
 
 SpotifyAlbum::SpotifyAlbum(const SpotifyLink& link) {
@@ -28,4 +30,6 @@ QString SpotifyAlbum::name() const {
 
 int SpotifyAlbum::year() const {
 	return sp_album_year(p);
+}
+
 }

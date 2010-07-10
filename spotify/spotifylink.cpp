@@ -1,6 +1,8 @@
 #include <libspotify/api.h>
 #include "spotifylink.hpp"
 
+namespace Spotify {
+
 SpotifyLink::SpotifyLink() : p(0) {
 }
 
@@ -22,4 +24,6 @@ SpotifyLink& SpotifyLink::operator = (const SpotifyLink& rhs) {
 	p = rhs.p;
 	sp_link_add_ref(p);
 	return *this;
+}
+
 }

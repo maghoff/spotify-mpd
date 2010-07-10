@@ -5,6 +5,9 @@
 #include <QObject>
 
 struct sp_artist;
+
+namespace Spotify {
+
 class SpotifyLink;
 
 class SpotifyArtist : public QObject {
@@ -25,6 +28,8 @@ public:
 	Q_INVOKABLE QString name() const;
 };
 
-Q_DECLARE_METATYPE(SpotifyArtist*)
+}
+
+Q_DECLARE_METATYPE(Spotify::SpotifyArtist*)
 
 #endif // SPOTIFYARTIST_HPP

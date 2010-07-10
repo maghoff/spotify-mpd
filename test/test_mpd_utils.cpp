@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QString>
 #include <QByteArray>
-#include "../mpd_utils.hpp"
+#include "../mpd/mpd_utils.hpp"
 
 Q_DECLARE_METATYPE(QVector<QString>);
 

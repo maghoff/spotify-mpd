@@ -6,6 +6,8 @@
 #include "spotifytrack.hpp"
 #include "logger_base.hpp"
 
+namespace Spotify {
+
 class SpotifySession;
 
 class SpotifyPlayer : public QObject {
@@ -33,5 +35,7 @@ public slots:
 private slots:
 	void metadataUpdated();
 };
+
+}
 
 #endif // SPOTIFYPLAYER_HPP

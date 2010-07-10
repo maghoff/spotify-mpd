@@ -4,6 +4,8 @@
 #include "spotifytrack.hpp"
 #include "spotifyobjectwrapper.hpp"
 
+namespace Spotify {
+
 SPOTIFY_OBJECT_WRAPPER(Track, track)
 
 SpotifyTrack::SpotifyTrack(const SpotifyLink& link) {
@@ -55,4 +57,6 @@ int SpotifyTrack::disc() const {
 
 int SpotifyTrack::index() const {
 	return sp_track_index(p);
+}
+
 }
