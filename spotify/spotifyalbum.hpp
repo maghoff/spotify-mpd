@@ -9,21 +9,21 @@ class sp_album;
 
 namespace Spotify {
 
-class SpotifyLink;
+class Link;
 
-class SpotifyAlbum : public QObject {
+class Album : public QObject {
 	Q_OBJECT
 
 	sp_album* p;
 
 public:
-	SpotifyAlbum();
-	SpotifyAlbum(sp_album*); //< This will not add a ref
-	SpotifyAlbum(const SpotifyLink&);
-	~SpotifyAlbum();
+	Album();
+	Album(sp_album*); //< This will not add a ref
+	Album(const Link&);
+	~Album();
 
-	SpotifyAlbum(const SpotifyAlbum&);
-	SpotifyAlbum& operator = (const SpotifyAlbum&);
+	Album(const Album&);
+	Album& operator = (const Album&);
 
 	sp_album* get() const { return p; }
 
@@ -31,7 +31,7 @@ public:
 
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
-	Q_INVOKABLE SpotifyArtist* artist() const;
+	Q_INVOKABLE Artist* artist() const;
 	// Q_INVOKABLE ? cover() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE int year() const;
@@ -40,6 +40,6 @@ public:
 
 }
 
-Q_DECLARE_METATYPE(Spotify::SpotifyAlbum*)
+Q_DECLARE_METATYPE(Spotify::Album*)
 
 #endif // SPOTIFYALBUM_HPP

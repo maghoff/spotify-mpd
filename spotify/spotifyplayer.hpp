@@ -8,27 +8,27 @@
 
 namespace Spotify {
 
-class SpotifySession;
+class Session;
 
-class SpotifyPlayer : public QObject {
+class Player : public QObject {
 	Q_OBJECT
 
-	SpotifySession* session;
+	Session* session;
 	logger local_logger;
 	bool isPlaying;
 	QUrl trackUrl;
-	SpotifyTrack track;
+	Track track;
 
 	void tryPlay();
 
 public:
-	// The SpotifySession-object is used as parent for QObject
-	SpotifyPlayer(SpotifySession*, const logger&);
+	// The Session-object is used as parent for QObject
+	Player(Session*, const logger&);
 
-	~SpotifyPlayer();
+	~Player();
 
 public slots:
-	void playTrack(SpotifyTrack*);
+	void playTrack(Track*);
 	void playUri(QUrl);
 	void playUri(QString);
 

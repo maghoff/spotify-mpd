@@ -7,16 +7,16 @@ class sp_link;
 
 namespace Spotify {
 
-class SpotifyLink {
+class Link {
 	sp_link* p;
 
 public:
-	SpotifyLink();
-	SpotifyLink(QUrl);
-	~SpotifyLink();
+	Link();
+	Link(QUrl);
+	~Link();
 
-	SpotifyLink(const SpotifyLink&);
-	SpotifyLink& operator = (const SpotifyLink&);
+	Link(const Link&);
+	Link& operator = (const Link&);
 
 	sp_link* get() const { return p; }
 };

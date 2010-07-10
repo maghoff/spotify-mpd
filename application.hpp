@@ -10,8 +10,8 @@ class ScriptEnvironment;
 class ScriptListener;
 
 namespace Spotify {
-	class SpotifySession;
-	class SpotifyPlayer;
+	class Session;
+	class Player;
 }
 
 class application : public QObject {
@@ -22,8 +22,8 @@ class application : public QObject {
 	MPDListener* mpd_listener;
 
 	AudioOutput* ao;
-	Spotify::SpotifySession* session;
-	Spotify::SpotifyPlayer* player;
+	Spotify::Session* session;
+	Spotify::Player* player;
 	ScriptListener* scriptListener;
 
 	ScriptEnvironment* terminal;

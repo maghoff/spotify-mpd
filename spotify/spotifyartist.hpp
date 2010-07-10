@@ -8,21 +8,21 @@ struct sp_artist;
 
 namespace Spotify {
 
-class SpotifyLink;
+class Link;
 
-class SpotifyArtist : public QObject {
+class Artist : public QObject {
 	Q_OBJECT
 
 	sp_artist* p;
 
 public:
-    SpotifyArtist();
-	SpotifyArtist(sp_artist*); //< This will not add a ref
-	SpotifyArtist(const SpotifyLink&);
-	~SpotifyArtist();
+    Artist();
+	Artist(sp_artist*); //< This will not add a ref
+	Artist(const Link&);
+	~Artist();
 
-	SpotifyArtist(const SpotifyArtist&);
-	SpotifyArtist& operator = (const SpotifyArtist&);
+	Artist(const Artist&);
+	Artist& operator = (const Artist&);
 
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE QString name() const;
@@ -30,6 +30,6 @@ public:
 
 }
 
-Q_DECLARE_METATYPE(Spotify::SpotifyArtist*)
+Q_DECLARE_METATYPE(Spotify::Artist*)
 
 #endif // SPOTIFYARTIST_HPP

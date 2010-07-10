@@ -37,7 +37,7 @@ application::application(const logger& local_logger_) :
 
 	mpd_listener = new MPDListener(this, local_logger_->create_sublogger("mpd"));
 
-	session = new Spotify::SpotifySession(this, local_logger->create_sublogger("session"));
+	session = new Spotify::Session(this, local_logger->create_sublogger("session"));
 	session->setObjectName("spotify");
 
 	ao = new AOAudioOutput(session, local_logger->create_sublogger("AOAudioOutput"));
@@ -45,7 +45,7 @@ application::application(const logger& local_logger_) :
 
 	session->login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
-	player = new Spotify::SpotifyPlayer(session, local_logger->create_sublogger("player"));
+	player = new Spotify::Player(session, local_logger->create_sublogger("player"));
 	player->setObjectName("player");
 
 	scriptListener = new ScriptListener(this, local_logger->create_sublogger("script_listener"), this);

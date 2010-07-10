@@ -11,9 +11,9 @@ class AudioOutput;
 
 namespace Spotify {
 
-class SpotifyTrack;
+class Track;
 
-class SpotifySession : public QObject {
+class Session : public QObject {
 	Q_OBJECT
 
 	logger local_logger, spotify_logger;
@@ -43,15 +43,15 @@ class SpotifySession : public QObject {
 	void createSessionObject();
 
 public:
-	SpotifySession(QObject* parent, const logger&);
-	~SpotifySession();
+	Session(QObject* parent, const logger&);
+	~Session();
 
 	bool event(QEvent*);
 	void login(QString username, QString password);
 
 	void setAudioOutput(AudioOutput*);
 
-	void playerLoad(const SpotifyTrack&);
+	void playerLoad(const Track&);
 	void playerPlay(bool);
 
 private slots:

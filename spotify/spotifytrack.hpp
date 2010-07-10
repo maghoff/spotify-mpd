@@ -11,21 +11,21 @@ struct sp_track;
 
 namespace Spotify {
 
-class SpotifyLink;
+class Link;
 
-class SpotifyTrack : public QObject {
+class Track : public QObject {
 	Q_OBJECT
 
 	sp_track* p;
 
 public:
-	SpotifyTrack();
-	SpotifyTrack(sp_track*); //< This will not add a ref
-	SpotifyTrack(const SpotifyLink&);
-	~SpotifyTrack();
+	Track();
+	Track(sp_track*); //< This will not add a ref
+	Track(const Link&);
+	~Track();
 
-	SpotifyTrack(const SpotifyTrack&);
-	SpotifyTrack& operator = (const SpotifyTrack&);
+	Track(const Track&);
+	Track& operator = (const Track&);
 
 	sp_track* get() const { return p; }
 
@@ -34,8 +34,8 @@ public:
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
 	Q_INVOKABLE int numArtists() const;
-	Q_INVOKABLE SpotifyArtist* artist(int) const;
-	Q_INVOKABLE SpotifyAlbum* album() const;
+	Q_INVOKABLE Artist* artist(int) const;
+	Q_INVOKABLE Album* album() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE QTime duration() const;
 	Q_INVOKABLE int popularity() const; //< 0 <= popularity <= 100
@@ -53,6 +53,6 @@ public:
 
 }
 
-Q_DECLARE_METATYPE(Spotify::SpotifyTrack*)
+Q_DECLARE_METATYPE(Spotify::Track*)
 
 #endif // SPOTIFYTRACK_HPP

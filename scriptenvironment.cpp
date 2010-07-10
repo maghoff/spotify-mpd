@@ -15,14 +15,14 @@ namespace {
 
 // The caller must take ownership of the returned object
 QObject* resolveLink(QString url) {
-	Spotify::SpotifyLink l(url);
+	Spotify::Link l(url);
 
 	if (l.get() == 0) return 0; //< invalid link
 
 	switch (sp_link_type(l.get())) {
-	case SP_LINKTYPE_TRACK: return new Spotify::SpotifyTrack(l);
-	case SP_LINKTYPE_ALBUM: return new Spotify::SpotifyAlbum(l);
-	case SP_LINKTYPE_ARTIST: return new Spotify::SpotifyArtist(l);
+	case SP_LINKTYPE_TRACK: return new Spotify::Track(l);
+	case SP_LINKTYPE_ALBUM: return new Spotify::Album(l);
+	case SP_LINKTYPE_ARTIST: return new Spotify::Artist(l);
 	default: return 0;
 	};
 }
@@ -52,9 +52,9 @@ QScriptValue wrapTerminate(QScriptContext* context, QScriptEngine*) {
 		out = qobject_cast<Spotify::Type*>(object.toQObject()); \
 	}
 
-QOBJECT_QSCRIPT_CONVERTERS(SpotifyAlbum)
-QOBJECT_QSCRIPT_CONVERTERS(SpotifyArtist)
-QOBJECT_QSCRIPT_CONVERTERS(SpotifyTrack)
+QOBJECT_QSCRIPT_CONVERTERS(Album)
+QOBJECT_QSCRIPT_CONVERTERS(Artist)
+QOBJECT_QSCRIPT_CONVERTERS(Track)
 
 }
 
@@ -78,9 +78,9 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 	#define REGISTER(Type) \
 		qScriptRegisterMetaType(engine, &scriptValueFrom##Type, &scriptValueTo##Type);
 
-	REGISTER(SpotifyAlbum)
-	REGISTER(SpotifyArtist)
-	REGISTER(SpotifyTrack)
+	REGISTER(Album)
+	REGISTER(Artist)
+	REGISTER(Track)
 
 	#undef REGISTER
 

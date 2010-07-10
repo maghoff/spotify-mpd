@@ -7,16 +7,16 @@ namespace Spotify {
 
 SPOTIFY_OBJECT_WRAPPER(Artist, artist)
 
-SpotifyArtist::SpotifyArtist(const SpotifyLink& link) {
+Artist::Artist(const Link& link) {
 	p = sp_link_as_artist(link.get());
 	if (p) sp_artist_add_ref(p);
 }
 
-bool SpotifyArtist::isLoaded() const {
+bool Artist::isLoaded() const {
 	return sp_artist_is_loaded(p);
 }
 
-QString SpotifyArtist::name() const {
+QString Artist::name() const {
 	return QString::fromUtf8(sp_artist_name(p));
 }
 

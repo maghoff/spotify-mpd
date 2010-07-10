@@ -2,22 +2,22 @@
 #define SPOTIFYOBJECTWRAPPER_HPP
 
 #define SPOTIFY_OBJECT_WRAPPER(Type, type) \
-	Spotify##Type::Spotify##Type() : p(0) { \
+	Type::Type() : p(0) { \
 	} \
 	\
-	Spotify##Type::Spotify##Type(sp_##type* p_) : p(p_) { \
+	Type::Type(sp_##type* p_) : p(p_) { \
 		/* Do not add a ref. Implicit transfer of one ref */ \
 	} \
 	\
-	Spotify##Type::~Spotify##Type() { \
+	Type::~Type() { \
 		if (p) sp_##type##_release(p); \
 	} \
 	\
-	Spotify##Type::Spotify##Type(const Spotify##Type& rhs) : QObject(rhs.parent()), p(rhs.p) { \
+	Type::Type(const Type& rhs) : QObject(rhs.parent()), p(rhs.p) { \
 		sp_##type##_add_ref(p); \
 	} \
 	\
-	Spotify##Type& Spotify##Type::operator = (const Spotify##Type& rhs) { \
+	Type& Type::operator = (const Type& rhs) { \
 		if (p) sp_##type##_release(p); \
 		p = rhs.p; \
 		sp_##type##_add_ref(p); \

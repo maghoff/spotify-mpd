@@ -22,13 +22,13 @@ std::string utf8_str(QString s) {
 	return std::string(a.data(), a.data() + a.size());
 }
 
-SpotifySession* userdata(sp_session* session) {
-	return reinterpret_cast<SpotifySession*>(sp_session_userdata(session));
+Session* userdata(sp_session* session) {
+	return reinterpret_cast<Session*>(sp_session_userdata(session));
 }
 
 }
 
-SpotifySession::SpotifySession(
+Session::Session(
 	QObject* parent,
 	const logger& local_logger_
 ) :
@@ -45,11 +45,11 @@ SpotifySession::SpotifySession(
 	createSessionObject();
 }
 
-SpotifySession::~SpotifySession() {
+Session::~Session() {
 	// Would delete the sp_session-object, but it is not allowed by the API
 }
 
-bool SpotifySession::event(QEvent* e) {
+bool Session::event(QEvent* e) {
 	if (e->type() == spotifyNotifyMainThreadEvent) {
 		spotifyNotifyMainThread();
 		return true;
@@ -58,13 +58,13 @@ bool SpotifySession::event(QEvent* e) {
 	return QObject::event(e);
 }
 
-void SpotifySession::spotifyNotifyMainThread() {
+void Session::spotifyNotifyMainThread() {
 	int timeout = -1;
 	sp_session_process_events(session, &timeout);
 	spotifyProcessEventsTimer.start(timeout);
 }
 
-void SpotifySession::createSessionObject() {
+void Session::createSessionObject() {
 	sp_session_config config;
 
 	// Always do this. It allows libspotify to check for
@@ -118,7 +118,7 @@ void SpotifySession::createSessionObject() {
 	}
 }
 
-void SpotifySession::login(QString username, QString password) {
+void Session::login(QString username, QString password) {
 	sp_error error = sp_session_login(session, utf8_str(username).c_str(), utf8_str(password).c_str());
 
 	if (error != SP_ERROR_OK) {
@@ -128,11 +128,11 @@ void SpotifySession::login(QString username, QString password) {
 	}
 }
 
-void SpotifySession::setAudioOutput(AudioOutput* ao_) {
+void Session::setAudioOutput(AudioOutput* ao_) {
 	ao = ao_;
 }
 
-void SpotifySession::playerLoad(const SpotifyTrack& track) {
+void Session::playerLoad(const Track& track) {
 	sp_error error = sp_session_player_load(session, track.get());
 
 	if (error != SP_ERROR_OK) {
@@ -142,7 +142,7 @@ void SpotifySession::playerLoad(const SpotifyTrack& track) {
 	}
 }
 
-void SpotifySession::playerPlay(bool play) {
+void Session::playerPlay(bool play) {
 	sp_error error = sp_session_player_play(session, play);
 
 	if (error != SP_ERROR_OK) {
@@ -156,10 +156,10 @@ void SpotifySession::playerPlay(bool play) {
 #define STLOG(level, msg) SLOG(userdata(session)->local_logger, level, msg)
 
 // These events happen on a different thread than main_thread:
-void SpotifySession::handle_notify_main_thread(sp_session* session) {
+void Session::handle_notify_main_thread(sp_session* session) {
 	STLOG(TRACE, __FUNCTION__);
 
-	SpotifySession* self = userdata(session);
+	Session* self = userdata(session);
 
 	QCoreApplication::postEvent(
 		self,
@@ -168,7 +168,7 @@ void SpotifySession::handle_notify_main_thread(sp_session* session) {
 }
 
 // These events happen on the main thread:
-void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
+void Session::handle_logged_in(sp_session* session, sp_error error) {
 	STLOG(TRACE, __FUNCTION__);
 
 	if (error != SP_ERROR_OK) {
@@ -184,32 +184,32 @@ void SpotifySession::handle_logged_in(sp_session* session, sp_error error) {
 	userdata(session)->loggedIn();
 }
 
-void SpotifySession::handle_logged_out(sp_session* session) {
+void Session::handle_logged_out(sp_session* session) {
 	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->loggedOut();
 }
 
-void SpotifySession::handle_metadata_updated(sp_session* session) {
+void Session::handle_metadata_updated(sp_session* session) {
 	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->metadataUpdated();
 }
 
-void SpotifySession::handle_play_token_lost(sp_session* session) {
+void Session::handle_play_token_lost(sp_session* session) {
 	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->playTokenLost();
 }
 
-void SpotifySession::handle_connection_error(sp_session* session, sp_error error) {
+void Session::handle_connection_error(sp_session* session, sp_error error) {
 	STLOG(ERROR, __FUNCTION__ << ": " << sp_error_message(error));
 	userdata(session)->connectionError();
 }
 
-void SpotifySession::handle_message_to_user(sp_session* session, const char* msg) {
+void Session::handle_message_to_user(sp_session* session, const char* msg) {
 	STLOG(NOTICE, __FUNCTION__ << ": " << msg);
 	userdata(session)->messageToUser(QString::fromUtf8(msg));
 }
 
-void SpotifySession::handle_log_message(sp_session* session, const char* data) {
+void Session::handle_log_message(sp_session* session, const char* data) {
 	logger& local_logger = userdata(session)->spotify_logger;
 
 	if (!local_logger->should_log(log_level::OPERATION)) return;
@@ -220,7 +220,7 @@ void SpotifySession::handle_log_message(sp_session* session, const char* data) {
 	}
 }
 
-int SpotifySession::handle_music_delivery(sp_session* session, const sp_audioformat *format, const void *frames, int num_frames) {
+int Session::handle_music_delivery(sp_session* session, const sp_audioformat *format, const void *frames, int num_frames) {
 //	STLOG(TRACE, __FUNCTION__);
 
 	MusicDeliveryData d;
@@ -233,18 +233,18 @@ int SpotifySession::handle_music_delivery(sp_session* session, const sp_audiofor
 	return userdata(session)->ao->musicDelivery(d);
 }
 
-void SpotifySession::handle_end_of_track(sp_session* session) {
+void Session::handle_end_of_track(sp_session* session) {
 //	STLOG(TRACE, __FUNCTION__);
 
 	userdata(session)->ao->endOfTrack();
 }
 
-void SpotifySession::handle_streaming_error(sp_session* session, sp_error error) {
+void Session::handle_streaming_error(sp_session* session, sp_error error) {
 	STLOG(ERROR, __FUNCTION__ << ": " << sp_error_message(error));
 	userdata(session)->streamingError();
 }
 
-void SpotifySession::handle_userinfo_updated(sp_session* session) {
+void Session::handle_userinfo_updated(sp_session* session) {
 	STLOG(TRACE, __FUNCTION__);
 	userdata(session)->userinfoUpdated();
 }

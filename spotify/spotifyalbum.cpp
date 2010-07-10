@@ -7,28 +7,28 @@ namespace Spotify {
 
 SPOTIFY_OBJECT_WRAPPER(Album, album)
 
-SpotifyAlbum::SpotifyAlbum(const SpotifyLink& link) {
+Album::Album(const Link& link) {
 	p = sp_link_as_album(link.get());
 	if (p) sp_album_add_ref(p);
 }
 
-bool SpotifyAlbum::isLoaded() const {
+bool Album::isLoaded() const {
 	return sp_album_is_loaded(p);
 }
 
-bool SpotifyAlbum::isAvailable() const {
+bool Album::isAvailable() const {
 	return sp_album_is_available(p);
 }
 
-SpotifyArtist* SpotifyAlbum::artist() const {
-	return new SpotifyArtist(sp_album_artist(p));
+Artist* Album::artist() const {
+	return new Artist(sp_album_artist(p));
 }
 
-QString SpotifyAlbum::name() const {
+QString Album::name() const {
 	return QString::fromUtf8(sp_album_name(p));
 }
 
-int SpotifyAlbum::year() const {
+int Album::year() const {
 	return sp_album_year(p);
 }
 
