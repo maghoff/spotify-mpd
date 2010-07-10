@@ -34,8 +34,8 @@ public:
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
 	Q_INVOKABLE int numArtists() const;
-	Q_INVOKABLE Artist* artist(int) const;
-	Q_INVOKABLE Album* album() const;
+	Q_INVOKABLE Spotify::Artist* artist(int) const;
+	Q_INVOKABLE Spotify::Album* album() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE QTime duration() const;
 	Q_INVOKABLE int popularity() const; //< 0 <= popularity <= 100

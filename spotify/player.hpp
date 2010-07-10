@@ -28,7 +28,7 @@ public:
 	~Player();
 
 public slots:
-	void playTrack(Track*);
+	void playTrack(Spotify::Track*);
 	void playUri(QUrl);
 	void playUri(QString);
 

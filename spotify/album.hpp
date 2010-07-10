@@ -31,7 +31,7 @@ public:
 
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE bool isAvailable() const;
-	Q_INVOKABLE Artist* artist() const;
+	Q_INVOKABLE Spotify::Artist* artist() const;
 	// Q_INVOKABLE ? cover() const;
 	Q_INVOKABLE QString name() const;
 	Q_INVOKABLE int year() const;
