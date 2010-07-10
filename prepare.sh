@@ -33,9 +33,9 @@ function install_libspotify {
 }
 
 
-if ! [ -a appkey.c ]
+if ! [ -a spotify/appkey.c ]
 then
-    echo "NOTE: You need to procure appkey.c from somewhere"
+    echo "NOTE: You need to procure spotify/appkey.c from somewhere"
 fi
 
 if ! dpkg -l $PACKAGES >/dev/null

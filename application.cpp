@@ -5,11 +5,11 @@
 #include <QString>
 #include "application.hpp"
 #include "aoaudiooutput.hpp"
-#include "mpdlistener.hpp"
+#include "mpd/mpdlistener.hpp"
 #include "scriptenvironment.hpp"
 #include "scriptlistener.hpp"
-#include "spotifyplayer.hpp"
-#include "spotifysession.hpp"
+#include "spotify/spotifyplayer.hpp"
+#include "spotify/spotifysession.hpp"
 #include "log.hpp"
 
 application::application(const logger& local_logger_) :

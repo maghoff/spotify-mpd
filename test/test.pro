@@ -14,5 +14,5 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += ../mpd_utils.hpp
-SOURCES += test_mpd_utils.cpp test_mpd_utils.moc ../mpd_utils.cpp
+HEADERS += ../mpd/mpd_utils.hpp
+SOURCES += test_mpd_utils.cpp test_mpd_utils.moc ../mpd/mpd_utils.cpp

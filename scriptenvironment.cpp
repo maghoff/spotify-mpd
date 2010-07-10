@@ -5,10 +5,10 @@
 #include <QTextStream>
 #include <libspotify/api.h>
 #include "scriptenvironment.hpp"
-#include "spotifyartist.hpp"
-#include "spotifyalbum.hpp"
-#include "spotifylink.hpp"
-#include "spotifytrack.hpp"
+#include "spotify/spotifyartist.hpp"
+#include "spotify/spotifyalbum.hpp"
+#include "spotify/spotifylink.hpp"
+#include "spotify/spotifytrack.hpp"
 #include "qlog.hpp"
 
 namespace {
