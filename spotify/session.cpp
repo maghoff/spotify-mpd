@@ -9,8 +9,8 @@
 #include "audiooutput.hpp"
 #include "appkey.h"
 #include "log.hpp"
-#include "spotifysession.hpp"
-#include "spotifytrack.hpp"
+#include "session.hpp"
+#include "track.hpp"
 #include "musicdeliverydata.hpp"
 
 namespace Spotify {

@@ -4,8 +4,8 @@
 #include <QMetaType>
 #include <QObject>
 #include <QTime>
-#include "spotifyalbum.hpp"
-#include "spotifyartist.hpp"
+#include "album.hpp"
+#include "artist.hpp"
 
 struct sp_track;
 

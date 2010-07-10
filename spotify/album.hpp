@@ -3,7 +3,7 @@
 
 #include <QMetaType>
 #include <QObject>
-#include "spotifyartist.hpp"
+#include "artist.hpp"
 
 class sp_album;
 

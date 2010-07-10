@@ -34,12 +34,12 @@ SOURCES += main.cpp \
     mpd/mpdserver.cpp \
     mpd/mpdlistener.cpp \
 	spotify/appkey.c \
-	spotify/spotifysession.cpp \
-    spotify/spotifyplayer.cpp \
-    spotify/spotifylink.cpp \
-    spotify/spotifytrack.cpp \
-    spotify/spotifyalbum.cpp \
-    spotify/spotifyartist.cpp
+	spotify/session.cpp \
+    spotify/player.cpp \
+    spotify/link.cpp \
+    spotify/track.cpp \
+    spotify/album.cpp \
+    spotify/artist.cpp
 
 HEADERS += application.hpp \
     log.hpp \
@@ -59,11 +59,11 @@ HEADERS += application.hpp \
     mpd/mpdserver.hpp \
     mpd/mpdlistener.hpp \
     spotify/appkey.h \
-    spotify/spotifysession.hpp \
-    spotify/spotifyplayer.hpp \
-    spotify/spotifylink.hpp \
-    spotify/spotifytrack.hpp \
-    spotify/spotifyalbum.hpp \
-    spotify/spotifyobjectwrapper.hpp \
-    spotify/spotifyartist.hpp
+    spotify/session.hpp \
+    spotify/player.hpp \
+    spotify/link.hpp \
+    spotify/track.hpp \
+    spotify/album.hpp \
+    spotify/objectwrapper.hpp \
+    spotify/artist.hpp
 

@@ -8,8 +8,8 @@
 #include "mpd/mpdlistener.hpp"
 #include "scriptenvironment.hpp"
 #include "scriptlistener.hpp"
-#include "spotify/spotifyplayer.hpp"
-#include "spotify/spotifysession.hpp"
+#include "spotify/player.hpp"
+#include "spotify/session.hpp"
 #include "log.hpp"
 
 application::application(const logger& local_logger_) :

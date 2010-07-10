@@ -1,8 +1,8 @@
 #include <cassert>
 #include <libspotify/api.h>
-#include "spotifylink.hpp"
-#include "spotifytrack.hpp"
-#include "spotifyobjectwrapper.hpp"
+#include "link.hpp"
+#include "track.hpp"
+#include "objectwrapper.hpp"
 
 namespace Spotify {
 

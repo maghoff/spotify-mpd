@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QUrl>
-#include "spotifytrack.hpp"
+#include "track.hpp"
 #include "logger_base.hpp"
 
 namespace Spotify {

@@ -1,8 +1,8 @@
 #include <libspotify/api.h>
-#include "spotifylink.hpp"
-#include "spotifyplayer.hpp"
-#include "spotifysession.hpp"
-#include "spotifytrack.hpp"
+#include "link.hpp"
+#include "player.hpp"
+#include "session.hpp"
+#include "track.hpp"
 #include "log.hpp"
 
 namespace Spotify {

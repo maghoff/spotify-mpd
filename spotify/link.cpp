@@ -1,5 +1,5 @@
 #include <libspotify/api.h>
-#include "spotifylink.hpp"
+#include "link.hpp"
 
 namespace Spotify {
 

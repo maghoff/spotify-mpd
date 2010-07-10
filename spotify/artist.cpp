@@ -1,7 +1,7 @@
 #include <libspotify/api.h>
-#include "spotifyartist.hpp"
-#include "spotifylink.hpp"
-#include "spotifyobjectwrapper.hpp"
+#include "artist.hpp"
+#include "link.hpp"
+#include "objectwrapper.hpp"
 
 namespace Spotify {
 
