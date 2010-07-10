@@ -1,3 +1,4 @@
+#include <QCoreApplication>
 #include <QIODevice>
 #include <QScriptEngine>
 #include <QString>
@@ -32,6 +33,16 @@ QScriptValue wrapResolveLink(QScriptContext* context, QScriptEngine* engine) {
 	return engine->newQObject(obj, QScriptEngine::ScriptOwnership);
 }
 
+void terminate() {
+	QCoreApplication::exit(0);
+}
+
+QScriptValue wrapTerminate(QScriptContext* context, QScriptEngine*) {
+	if (context->argumentCount() != 0) return QScriptValue();
+	terminate();
+	return QScriptValue();
+}
+
 #define QOBJECT_QSCRIPT_CONVERTERS(Type) \
 	QScriptValue scriptValueFrom##Type(QScriptEngine *engine, Type* const &in) { \
 		return engine->newQObject(in); \
@@ -60,6 +71,9 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 
 	QScriptValue resolveLinkObject = engine->newFunction(wrapResolveLink, 1);
 	engine->globalObject().setProperty("resolveLink", resolveLinkObject);
+
+	QScriptValue terminateObject = engine->newFunction(wrapTerminate, 1);
+	engine->globalObject().setProperty("terminate", terminateObject);
 
 	#define REGISTER(Type) \
 		qScriptRegisterMetaType(engine, &scriptValueFrom##Type, &scriptValueTo##Type);
