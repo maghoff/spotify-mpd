@@ -13,6 +13,8 @@ enum log_level_t {
 
 	NOTICE = 40,
 
+	STATE = 45, // Significant state changes that are part of normal operation
+
 	OPERATION = 50,
 
 	INPUT = 60,
