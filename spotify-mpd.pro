@@ -6,18 +6,33 @@ QT += network \
 QT -= gui
 
 win32 {
-	QT += console
+    QT += console
 }
 
 TARGET = spotify-mpd
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG += link_pkgconfig
-PKGCONFIG += libspotify \
-    ao
 
-# To find libspotify.so more easily at runtime:
-unix:LIBS += -Wl,-R/usr/local/lib
+unix {
+    !macx {
+        CONFIG += link_pkgconfig
+        PKGCONFIG += libspotify ao
+
+        # To find libspotify.so more easily at runtime:
+        LIBS += -Wl,-R/usr/local/lib
+    }
+}
+
+macx {
+    CONFIG -= app_bundle
+
+    # We are using MacPorts, so we need:
+    INCLUDEPATH = /opt/local/include
+    LIBS += -L/opt/local/lib
+
+    LIBS += -lao -framework libspotify
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -33,8 +48,8 @@ SOURCES += main.cpp \
     mpd/mpd_utils.cpp \
     mpd/mpdserver.cpp \
     mpd/mpdlistener.cpp \
-	spotify/appkey.c \
-	spotify/session.cpp \
+    spotify/appkey.c \
+    spotify/session.cpp \
     spotify/player.cpp \
     spotify/link.cpp \
     spotify/track.cpp \
