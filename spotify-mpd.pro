@@ -30,6 +30,10 @@ macx {
     INCLUDEPATH = /opt/local/include
     LIBS += -L/opt/local/lib
 
+    # The following forces a 64-bit build:
+    CONFIG -= x86
+    CONFIG += x86_64
+
     LIBS += -lao -framework libspotify
 }
 

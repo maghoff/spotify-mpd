@@ -18,6 +18,7 @@ function libspotify_is_installed {
 
 function install_libspotify {
     MACHINE=`uname -m` # Preferably i686 or x86_64
+    MAC_URI="http://developer.spotify.com/download/libspotify/libspotify-$LIBSPOTIFY_VERSION-darwin.zip"
     SOURCE_URI="http://developer.spotify.com/download/libspotify/libspotify-$LIBSPOTIFY_VERSION-linux6-$MACHINE.tar.gz"
     TARGET=/tmp/spotify.tar.gz
 
