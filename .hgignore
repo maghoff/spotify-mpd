@@ -8,3 +8,6 @@ test/test
 *.pro.user
 appkey.c
 tmp
+build
+*.pro.user*
+spotify-mpd.xcodeproj

@@ -8,12 +8,31 @@ win32:QT += console
 TARGET = spotify-mpd
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG += link_pkgconfig
-PKGCONFIG += libspotify \
-    ao
 
-# To find libspotify.so more easily at runtime:
-unix:LIBS += -Wl,-R/usr/local/lib
+unix {
+    !macx {
+        CONFIG += link_pkgconfig
+        PKGCONFIG += libspotify ao
+
+        # To find libspotify.so more easily at runtime:
+        LIBS += -Wl,-R/usr/local/lib
+    }
+}
+
+macx {
+    CONFIG -= app_bundle
+
+    # We are using MacPorts, so we need:
+    INCLUDEPATH = /opt/local/include
+    LIBS += -L/opt/local/lib
+
+    # The following forces a 64-bit build:
+    CONFIG -= x86
+    CONFIG += x86_64
+
+    LIBS += -lao -framework libspotify
+}
+
 TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
