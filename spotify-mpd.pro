@@ -54,7 +54,8 @@ SOURCES += main.cpp \
     spotify/track.cpp \
     spotify/album.cpp \
     spotify/artist.cpp \
-    spotify/playlistcontainer.cpp
+    spotify/playlistcontainer.cpp \
+    spotify/playlist.cpp
 HEADERS += application.hpp \
     log.hpp \
     log_level.hpp \
@@ -80,4 +81,5 @@ HEADERS += application.hpp \
     spotify/album.hpp \
     spotify/objectwrapper.hpp \
     spotify/artist.hpp \
-    spotify/playlistcontainer.hpp
+    spotify/playlistcontainer.hpp \
+    spotify/playlist.hpp
