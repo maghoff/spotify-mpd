@@ -17,11 +17,11 @@ int Playlist::numTracks() const {
 	return sp_playlist_num_tracks(p);
 }
 
-Track Playlist::track(int t) const {
+Track* Playlist::track(int t) const {
 	sp_track* sp_t = sp_playlist_track(p, t);
 	assert(sp_t);
 	sp_track_add_ref(sp_t);
-	return Track(sp_t);
+	return new Track(sp_t);
 }
 
 QString Playlist::name() const {

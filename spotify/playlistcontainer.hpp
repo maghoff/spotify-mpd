@@ -3,6 +3,7 @@
 
 #include <QMetaType>
 #include <QObject>
+#include "playlist.hpp"
 
 struct sp_playlistcontainer;
 
@@ -19,6 +20,9 @@ public:
 	PlaylistContainer(sp_playlistcontainer* p);
 	~PlaylistContainer();
 
+	Q_INVOKABLE int numPlaylists() const;
+	Q_INVOKABLE Spotify::Playlist* playlist(int) const;
+
 signals:
 /*
 void(* 	playlist_added )(sp_playlistcontainer *pc, sp_playlist *playlist, int position, void *userdata)
@@ -34,9 +38,6 @@ public slots:
 /*
 void 	sp_playlistcontainer_add_callbacks (sp_playlistcontainer *pc, sp_playlistcontainer_callbacks *callbacks, void *userdata)
 void 	sp_playlistcontainer_remove_callbacks (sp_playlistcontainer *pc, sp_playlistcontainer_callbacks *callbacks, void *userdata)
-
-int 	sp_playlistcontainer_num_playlists (sp_playlistcontainer *pc)
-sp_playlist * 	sp_playlistcontainer_playlist (sp_playlistcontainer *pc, int index)
 
 sp_playlist * 	sp_playlistcontainer_add_new_playlist (sp_playlistcontainer *pc, const char *name)
 sp_playlist * 	sp_playlistcontainer_add_playlist (sp_playlistcontainer *pc, sp_link *link)

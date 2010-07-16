@@ -17,5 +17,15 @@ PlaylistContainer::~PlaylistContainer() {
 	// As far as I can tell, there is no cleaning up possible for an sp_playlistcontainer.
 }
 
+int PlaylistContainer::numPlaylists() const {
+	return sp_playlistcontainer_num_playlists(p);
+}
+
+Playlist* PlaylistContainer::playlist(int i) const {
+	sp_playlist* sp_p = sp_playlistcontainer_playlist(p, i);
+	assert(sp_p);
+	sp_playlist_add_ref(sp_p);
+	return new Playlist(sp_p);
+}
 
 } // namespace Spotify

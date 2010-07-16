@@ -30,7 +30,7 @@ public:
 
 	Q_INVOKABLE bool isLoaded() const;
 	Q_INVOKABLE int numTracks() const;
-	Q_INVOKABLE Track track(int) const;
+	Q_INVOKABLE Spotify::Track* track(int) const;
 	Q_INVOKABLE QString name() const;
 	/*
 	sp_error sp_playlist_rename(sp_playlist *playlist, const char *new_name)
