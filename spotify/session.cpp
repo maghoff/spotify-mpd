@@ -247,6 +247,13 @@ void Session::handle_end_of_track(sp_session* session) {
 //	STLOG(TRACE, __FUNCTION__);
 
 	userdata(session)->ao->endOfTrack();
+
+	// Emitting a signal on the wrong thread is OK, because the connection
+	// type is "auto" by default, which means that if the signal is emitted
+	// on a different thread from the slot's event loop, the signal will be
+	// posted as an event instead.
+
+	userdata(session)->endOfTrack();
 }
 
 void Session::handle_streaming_error(sp_session* session, sp_error error) {

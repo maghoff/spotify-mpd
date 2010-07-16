@@ -72,6 +72,10 @@ signals:
 	void playTokenLost();
 	void streamingError(/* error code */);
 	void userinfoUpdated();
+
+	// This signal is emitted on a thread created by libspotify.
+	// This will be handled in a good way automatically by Qt.
+	void endOfTrack();
 };
 
 }

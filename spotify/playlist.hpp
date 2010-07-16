@@ -1,11 +1,14 @@
 #ifndef SPOTIFY_PLAYLIST_HPP
 #define SPOTIFY_PLAYLIST_HPP
 
+#include <memory>
 #include <QMetaType>
 #include <QObject>
 #include "track.hpp"
 
 struct sp_playlist;
+struct sp_playlist_callbacks;
+struct sp_track;
 
 namespace Spotify {
 
@@ -15,14 +18,19 @@ class Playlist : public QObject {
 	Q_OBJECT
 
 	sp_playlist* p;
+	std::auto_ptr<sp_playlist_callbacks> cb;
+
+	static void handle_tracks_added(sp_playlist*, sp_track * const *, int, int, void*);
+	static void handle_tracks_removed(sp_playlist *pl, const int *tracks, int num_tracks, void *userdata);
+	static void handle_tracks_moved(sp_playlist *pl, const int *tracks, int num_tracks, int new_position, void *userdata);
+	static void handle_playlist_renamed(sp_playlist *pl, void *userdata);
+	static void handle_playlist_state_changed(sp_playlist *pl, void *userdata);
+	static void handle_playlist_update_in_progress(sp_playlist *pl, bool done, void *userdata);
+	static void handle_playlist_metadata_updated(sp_playlist *pl, void *userdata);
 
 public:
-	Playlist();
 	explicit Playlist(sp_playlist*); //< This will not add a ref
 	~Playlist();
-
-	Playlist(const Playlist&);
-	Playlist& operator = (const Playlist&);
 
 	sp_playlist* get() const { return p; }
 
@@ -46,9 +54,13 @@ public:
 	*/
 
 signals:
-
-public slots:
-
+	void tracksAdded(/* tracks? */ int num_tracks, int position);
+	void tracksRemoved(/* tracks? */ int num_tracks);
+	void tracksMoved(/* tracks? */ int num_tracks, int new_position);
+	void playlistRenamed();
+	void playlistStateChanged();
+	void playlistUpdateInProgress(bool done);
+	void playlistMetadataUpdated();
 };
 
 }
