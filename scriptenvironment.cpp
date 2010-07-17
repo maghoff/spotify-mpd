@@ -45,20 +45,15 @@ QScriptValue wrapTerminate(QScriptContext* context, QScriptEngine*) {
 	return QScriptValue();
 }
 
-#define QOBJECT_QSCRIPT_CONVERTERS(Type) \
-	QScriptValue scriptValueFrom##Type(QScriptEngine *engine, Spotify::Type* const &in) { \
-		return engine->newQObject(in); \
-	} \
-	\
-	void scriptValueTo##Type(const QScriptValue &object, Spotify::Type* &out) { \
-		out = qobject_cast<Spotify::Type*>(object.toQObject()); \
-	}
+template<class T>
+QScriptValue scriptValueFromType(QScriptEngine* engine, T* const& in) {
+	return engine->newQObject(in);
+}
 
-QOBJECT_QSCRIPT_CONVERTERS(Album)
-QOBJECT_QSCRIPT_CONVERTERS(Artist)
-QOBJECT_QSCRIPT_CONVERTERS(Playlist)
-QOBJECT_QSCRIPT_CONVERTERS(PlaylistContainer)
-QOBJECT_QSCRIPT_CONVERTERS(Track)
+template<class T>
+void scriptValueToType(const QScriptValue& object, T* &out) {
+	out = qobject_cast<T*>(object.toQObject());
+}
 
 }
 
@@ -80,7 +75,7 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 	engine->globalObject().setProperty("terminate", terminateObject);
 
 	#define REGISTER(Type) \
-		qScriptRegisterMetaType(engine, &scriptValueFrom##Type, &scriptValueTo##Type);
+		qScriptRegisterMetaType(engine, &scriptValueFromType<Spotify::Type>, &scriptValueToType<Spotify::Type>);
 
 	REGISTER(Album)
 	REGISTER(Artist)
