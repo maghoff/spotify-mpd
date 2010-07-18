@@ -83,3 +83,6 @@ HEADERS += application.hpp \
     spotify/artist.hpp \
     spotify/playlistcontainer.hpp \
     spotify/playlist.hpp
+
+OTHER_FILES += \
+    init.js

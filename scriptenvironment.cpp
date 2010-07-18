@@ -1,4 +1,6 @@
+#include <stdexcept>
 #include <QCoreApplication>
+#include <QFile>
 #include <QIODevice>
 #include <QScriptEngine>
 #include <QString>
@@ -55,6 +57,15 @@ void scriptValueToType(const QScriptValue& object, T* &out) {
 	out = qobject_cast<T*>(object.toQObject());
 }
 
+QString readEntireFile(QString filename) {
+	QFile in(filename);
+	in.open(QIODevice::ReadOnly);
+	size_t size = in.size();
+	uchar* data = in.map(0, size);
+	if (!data) throw std::runtime_error("QFile::map() returned 0");
+	return QString::fromUtf8(reinterpret_cast<char*>(data), size);
+}
+
 }
 
 ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger_, QObject* environment, QIODevice* io_) :
@@ -85,11 +96,7 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 
 	#undef REGISTER
 
-	engine->evaluate(
-		"app = application;\n"
-		"p = app.spotify.player;\n"
-		"t = terminate;\n"
-	);
+	engine->evaluate(readEntireFile("init.js"));
 
 	assert(io);
 	connect(io, SIGNAL(readyRead()), this, SLOT(readyRead()));
