@@ -2,8 +2,7 @@
 #define ANSI_LOG_TARGET_HPP
 
 #include <ostream>
-// For log_target_base:
-#include "logger.hpp"
+#include "log_target_base.hpp"
 
 class ansi_log_target : public log_target_base {
 	std::ostream& out;

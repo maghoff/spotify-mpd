@@ -4,6 +4,7 @@
 #include "ansi_log_target.hpp"
 #include "application.hpp"
 #include "log.hpp"
+#include "log_target_container.hpp"
 #include "logger.hpp"
 
 int main(int argc, char *argv[]) {
