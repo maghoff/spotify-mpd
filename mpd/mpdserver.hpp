@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QHash>
-#include "logger_base.hpp"
+#include "logger.hpp"
 
 class QIODevice;
 class QString;

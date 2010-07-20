@@ -2,7 +2,7 @@
 #define SCRIPTENVIRONMENT_HPP
 
 #include <QObject>
-#include "logger_base.hpp"
+#include "logger.hpp"
 
 class QIODevice;
 class QScriptEngine;

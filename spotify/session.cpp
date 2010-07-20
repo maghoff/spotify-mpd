@@ -35,7 +35,7 @@ Session::Session(
 ) :
 	QObject(parent),
 	local_logger(local_logger_),
-	spotify_logger(local_logger_->create_sublogger("libspotify")),
+	spotify_logger(logger(local_logger_, "libspotify")),
 	session(0),
 	ao(0)
 {
@@ -222,7 +222,7 @@ void Session::handle_message_to_user(sp_session* session, const char* msg) {
 void Session::handle_log_message(sp_session* session, const char* data) {
 	logger& local_logger = userdata(session)->spotify_logger;
 
-	if (!local_logger->should_log(log_level::OPERATION)) return;
+	if (!local_logger.should_log(log_level::OPERATION)) return;
 
 	QStringList msgs = QString::fromUtf8(data).split('\n', QString::SkipEmptyParts);
 	foreach (QString msg, msgs) {

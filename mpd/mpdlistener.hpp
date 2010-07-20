@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QTcpServer>
-#include "logger_base.hpp"
+#include "logger.hpp"
 
 class MPDListener : public QObject {
 	Q_OBJECT

@@ -35,20 +35,20 @@ application::application(const logger& local_logger_) :
 		throw std::runtime_error("Lul");
 	}
 
-	mpd_listener = new MPDListener(this, local_logger_->create_sublogger("mpd"));
+	mpd_listener = new MPDListener(this, logger(local_logger, "mpd"));
 
-	session = new Spotify::Session(this, local_logger->create_sublogger("session"));
+	session = new Spotify::Session(this, logger(local_logger, "session"));
 	session->setObjectName("spotify");
 
-	ao = new AOAudioOutput(session, local_logger->create_sublogger("AOAudioOutput"));
+	ao = new AOAudioOutput(session, logger(local_logger, "AOAudioOutput"));
 	session->setAudioOutput(ao);
 
 	session->login(settings.value("username", "").toString(), settings.value("password", "").toString());
 
-	player = new Spotify::Player(session, local_logger->create_sublogger("player"));
+	player = new Spotify::Player(session, logger(local_logger, "player"));
 	player->setObjectName("player");
 
-	scriptListener = new ScriptListener(this, local_logger->create_sublogger("script_listener"), this);
+	scriptListener = new ScriptListener(this, logger(local_logger, "script_listener"), this);
 
 	// Inspired by http://stackoverflow.com/questions/1312922/detect-if-stdin-is-a-terminal-or-pipe-in-c-c-qt/1312957#1312957
 	unsigned stdin_fileno = fileno(stdin);
@@ -58,7 +58,7 @@ application::application(const logger& local_logger_) :
 		QTcpSocket* stdIO = new QTcpSocket(this);
 		stdIO->setSocketDescriptor(stdin_fileno);
 
-		terminal = new ScriptEnvironment(this, local_logger->create_sublogger("script_console"), this, stdIO);
+		terminal = new ScriptEnvironment(this, logger(local_logger, "script_console"), this, stdIO);
 	} else {
 		LLOG(ANALYSIS, "stdio is not a terminal. Not enabling interactive session");
 		terminal = 0;

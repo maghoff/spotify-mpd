@@ -2,7 +2,7 @@
 #define APPLICATION_HPP
 
 #include <QObject>
-#include "logger_base.hpp"
+#include "logger.hpp"
 
 class MPDListener;
 class AudioOutput;

@@ -2,7 +2,7 @@
 #define SCRIPTLISTENER_HPP
 
 #include <QObject>
-#include "logger_base.hpp"
+#include "logger.hpp"
 
 class QTcpServer;
 

@@ -46,5 +46,5 @@ void ScriptListener::newConnection() {
 	std::stringstream ss;
 	ss << utf8_str(io->peerAddress().toString()) << ':' << io->peerPort();
 
-	new ScriptEnvironment(this, local_logger->create_sublogger(ss.str()), environment, io);
+	new ScriptEnvironment(this, logger(local_logger, ss.str()), environment, io);
 }

@@ -36,9 +36,8 @@ macx {
 TEMPLATE = app
 SOURCES += main.cpp \
     application.cpp \
-    logger_base.cpp \
+    logger.cpp \
     log_message.cpp \
-    console_logger.cpp \
     import/ao-audio.c \
     audiooutput.cpp \
     aoaudiooutput.cpp \
@@ -55,13 +54,13 @@ SOURCES += main.cpp \
     spotify/album.cpp \
     spotify/artist.cpp \
     spotify/playlistcontainer.cpp \
-    spotify/playlist.cpp
+	spotify/playlist.cpp \
+    ansi_log_target.cpp
 HEADERS += application.hpp \
     log.hpp \
     log_level.hpp \
-    logger_base.hpp \
+    logger.hpp \
     log_message.hpp \
-    console_logger.hpp \
     import/queue.h \
     import/audio.h \
     audiooutput.hpp \
@@ -82,7 +81,8 @@ HEADERS += application.hpp \
     spotify/objectwrapper.hpp \
     spotify/artist.hpp \
     spotify/playlistcontainer.hpp \
-    spotify/playlist.hpp
+	spotify/playlist.hpp \
+    ansi_log_target.hpp
 
 OTHER_FILES += \
     init.js

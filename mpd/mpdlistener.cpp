@@ -32,5 +32,5 @@ void MPDListener::newConnection() {
 	std::stringstream ss;
 	ss << utf8_str(io->peerAddress().toString()) << ':' << io->peerPort();
 
-	new MPDServer(this, local_logger->create_sublogger(ss.str()), io);
+	new MPDServer(this, logger(local_logger, ss.str()), io);
 }

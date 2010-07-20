@@ -62,7 +62,7 @@ void MPDServer::readMe() {
 }
 
 void MPDServer::processMessage(QVector<QString> msg) {
-	if (local_logger->should_log(log_level::INPUT)) {
+	if (local_logger.should_log(log_level::INPUT)) {
 		std::ostringstream ss;
 		ss << "Handling message: [";
 		for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
@@ -71,7 +71,7 @@ void MPDServer::processMessage(QVector<QString> msg) {
 		}
 		ss << ']';
 
-		local_logger->log(log_level::INPUT, ss.str());
+		local_logger.log(log_level::INPUT, ss.str());
 	}
 
 	if (command_list_status == command_list_failed) {
@@ -112,7 +112,7 @@ void MPDServer::processMessage(QVector<QString> msg) {
 			}
 		}
 	} else {
-		if (local_logger->should_log(log_level::OPERATION)) {
+		if (local_logger.should_log(log_level::OPERATION)) {
 			std::stringstream ss;
 			ss << "Unhandled message: [";
 			for (QVector<QString>::const_iterator i = msg.begin(); i != msg.end(); ++i) {
@@ -120,7 +120,7 @@ void MPDServer::processMessage(QVector<QString> msg) {
 				ss << '"' << (*i).toUtf8().data() << '\"';
 			}
 			ss << ']';
-			local_logger->log(log_level::OPERATION, ss.str());
+			local_logger.log(log_level::OPERATION, ss.str());
 		}
 
 		//io->write("ACK [5@0] {} unknown command\n");

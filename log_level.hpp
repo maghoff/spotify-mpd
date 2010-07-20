@@ -5,6 +5,8 @@ namespace log_level {
 
 enum log_level_t {
 
+	NEVER = -1,
+
 	BUG = 10,
 
 	ERROR = 20,

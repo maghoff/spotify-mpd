@@ -3,7 +3,7 @@
 
 #include <pthread.h>
 #include "audiooutput.hpp"
-#include "logger_base.hpp"
+#include "logger.hpp"
 #include "import/audio.h"
 
 class AOAudioOutput : public AudioOutput {
