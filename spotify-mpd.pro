@@ -57,7 +57,8 @@ SOURCES += main.cpp \
 	spotify/playlist.cpp \
     ansi_log_target.cpp \
     log_target_base.cpp \
-    log_target_container.cpp
+    log_target_container.cpp \
+    syslog_log_target.cpp
 HEADERS += application.hpp \
     log.hpp \
     log_level.hpp \
@@ -86,7 +87,8 @@ HEADERS += application.hpp \
 	spotify/playlist.hpp \
     ansi_log_target.hpp \
     log_target_base.hpp \
-    log_target_container.hpp
+    log_target_container.hpp \
+    syslog_log_target.hpp
 
 OTHER_FILES += \
     init.js
