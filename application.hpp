@@ -31,6 +31,9 @@ class application : public QObject {
 public:
 	application(const logger&);
 	~application();
+
+public slots:
+	void log(int /* log_level_t */, QString);
 };
 
 #endif // APPLICATION_HPP

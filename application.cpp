@@ -67,3 +67,10 @@ application::application(const logger& local_logger_) :
 
 application::~application() {
 }
+
+void application::log(int level_, QString msg) {
+	log_level_t level(static_cast<log_level_t>(level_));
+	if (local_logger.should_log(level)) {
+		local_logger.log(level, std::string(msg.toUtf8().constData()));
+	}
+}
