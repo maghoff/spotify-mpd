@@ -3,11 +3,15 @@
 #include "log_message.hpp"
 #include "syslog_log_target.hpp"
 
-syslog_log_target::syslog_log_target(const std::string& ident) :
-	log_target_base(log_level::ANALYSIS)
+syslog_log_target::syslog_log_target(const std::string& ident_) :
+	log_target_base(log_level::ANALYSIS),
+	ident(ident_.begin(), ident_.end())
 {
+	// C-string terminator, for openlog:
+	ident.push_back(0);
+
 	// Should translate from UTF-8 to the encoding openlog expects:
-	openlog(ident.c_str(), LOG_PID, LOG_DAEMON);
+	openlog(ident.data(), LOG_PID, LOG_DAEMON);
 }
 
 syslog_log_target::~syslog_log_target() {
@@ -38,5 +42,6 @@ void syslog_log_target::log(const log_message& msg) const {
 
 	out << "] " << msg.message << std::flush;
 
+	// Should translate from UTF-8 to the encoding syslog expects:
 	syslog(syslog_level, "%s", out.str().c_str());
 }
