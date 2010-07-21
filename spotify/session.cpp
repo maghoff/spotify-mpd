@@ -182,16 +182,11 @@ void Session::handle_logged_in(sp_session* session, sp_error error) {
 	STLOG(TRACE, __FUNCTION__);
 
 	if (error != SP_ERROR_OK) {
-		std::ostringstream ss;
-		ss << "Failed to log in to spotify: " << sp_error_message(error);
-		STLOG(ERROR, ss.str());
-
-		// This exception propagates to the Qt event loop. This is not supported
-		// by Qt, so we should probably consider doing something else.
-		throw std::runtime_error(ss.str());
+		STLOG(ERROR, "Failed to log in to spotify: " << sp_error_message(error));
+		// The failure to log in should be reported by an event
+	} else {
+		userdata(session)->loggedIn();
 	}
-
-	userdata(session)->loggedIn();
 }
 
 void Session::handle_logged_out(sp_session* session) {
