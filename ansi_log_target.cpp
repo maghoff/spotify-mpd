@@ -10,7 +10,7 @@ ansi_log_target::ansi_log_target(std::ostream& out_, log_level_t level) :
 {
 	using namespace boost::local_time;
 	local_time_facet* lf(new local_time_facet("%Y-%m-%dT%H:%M:%S%F%Q"));
-	std::cout.imbue(std::locale(std::cout.getloc(), lf));
+	out.imbue(std::locale(out.getloc(), lf));
 }
 
 ansi_log_target::~ansi_log_target() {
