@@ -14,6 +14,8 @@
 #include "spotify/link.hpp"
 #include "spotify/track.hpp"
 #include "qlog.hpp"
+#include "log_target_container.hpp"
+#include "ansi_log_target.hpp"
 
 namespace {
 
@@ -68,10 +70,18 @@ QString readEntireFile(QString filename) {
 
 }
 
-ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger_, QObject* environment, QIODevice* io_) :
+ScriptEnvironment::ScriptEnvironment(
+	QObject* parent,
+	const logger& local_logger_,
+	const log_target_container_ptr& log_targets_,
+	QObject* environment,
+	QIODevice* io_
+) :
 	QObject(parent),
 	local_logger(local_logger_),
+	log_targets(log_targets_),
 	io(io_),
+	io_device_ostream(io_),
 	engine(new QScriptEngine(this))
 {
 	QLOG(TRACE, "Constructed");
@@ -101,11 +111,16 @@ ScriptEnvironment::ScriptEnvironment(QObject* parent, const logger& local_logger
 	assert(io);
 	connect(io, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
+	io_device_log_target.reset(new ansi_log_target(io_device_ostream, log_level::INPUT));
+	log_targets->insert_target(io_device_log_target); //< Refactor to RAII?
+
 	QTextStream ts(io);
 	ts << ">>> ";
 }
 
 ScriptEnvironment::~ScriptEnvironment() {
+	log_targets->erase_target(io_device_log_target); //< Refactor to RAII?
+
 	QLOG(TRACE, "Destructed");
 }
 

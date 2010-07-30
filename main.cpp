@@ -9,8 +9,7 @@
 #include "syslog_log_target.hpp"
 
 int main(int argc, char *argv[]) {
-	boost::shared_ptr<log_target_container> log_targets(new log_target_container);
-	log_targets->insert_target(log_target(new ansi_log_target(std::cout, log_level::INPUT)));
+	log_target_container_ptr log_targets(new log_target_container);
 	log_targets->insert_target(log_target(new syslog_log_target("spotify-mpd")));
 	logger local_logger(log_targets);
 
@@ -20,7 +19,7 @@ int main(int argc, char *argv[]) {
 	a.setOrganizationName("No name; Zapp Brannigan");
 	a.setApplicationName("spotify-mpd");
 
-	application app(local_logger);
+	application app(local_logger, log_targets);
 
 	return a.exec();
 }

@@ -14,9 +14,15 @@ std::string utf8_str(QString s) {
 
 }
 
-ScriptListener::ScriptListener(QObject* parent, const logger& local_logger_, QObject* environment_) :
+ScriptListener::ScriptListener(
+	QObject* parent,
+	const logger& local_logger_,
+	const log_target_container_ptr& log_targets_,
+	QObject* environment_
+) :
 	QObject(parent),
 	local_logger(local_logger_),
+	log_targets(log_targets_),
 	environment(environment_)
 {
 	server = new QTcpServer(this);
@@ -46,5 +52,5 @@ void ScriptListener::newConnection() {
 	std::stringstream ss;
 	ss << utf8_str(io->peerAddress().toString()) << ':' << io->peerPort();
 
-	new ScriptEnvironment(this, logger(local_logger, ss.str()), environment, io);
+	new ScriptEnvironment(this, logger(local_logger, ss.str()), log_targets, environment, io);
 }

@@ -1,8 +1,12 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
+#include <boost/shared_ptr.hpp>
 #include <QObject>
 #include "logger.hpp"
+
+class log_target_container;
+typedef boost::shared_ptr<log_target_container> log_target_container_ptr;
 
 class MPDListener;
 class AudioOutput;
@@ -29,7 +33,7 @@ class application : public QObject {
 	ScriptEnvironment* terminal;
 
 public:
-	application(const logger&);
+	application(const logger&, const log_target_container_ptr&);
 	~application();
 
 public slots:

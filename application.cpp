@@ -11,8 +11,12 @@
 #include "spotify/player.hpp"
 #include "spotify/session.hpp"
 #include "log.hpp"
+#include "log_target_container.hpp"
 
-application::application(const logger& local_logger_) :
+application::application(
+	const logger& local_logger_,
+	const log_target_container_ptr& log_targets
+) :
 	local_logger(local_logger_)
 {
 	QSettings settings;
@@ -48,7 +52,7 @@ application::application(const logger& local_logger_) :
 	player = new Spotify::Player(session, logger(local_logger, "player"));
 	player->setObjectName("player");
 
-	scriptListener = new ScriptListener(this, logger(local_logger, "script_listener"), this);
+	scriptListener = new ScriptListener(this, logger(local_logger, "script_listener"), log_targets, this);
 
 	// Inspired by http://stackoverflow.com/questions/1312922/detect-if-stdin-is-a-terminal-or-pipe-in-c-c-qt/1312957#1312957
 	unsigned stdin_fileno = fileno(stdin);
@@ -58,7 +62,7 @@ application::application(const logger& local_logger_) :
 		QTcpSocket* stdIO = new QTcpSocket(this);
 		stdIO->setSocketDescriptor(stdin_fileno);
 
-		terminal = new ScriptEnvironment(this, logger(local_logger, "script_console"), this, stdIO);
+		terminal = new ScriptEnvironment(this, logger(local_logger, "script_console"), log_targets, this, stdIO);
 	} else {
 		LLOG(ANALYSIS, "stdio is not a terminal. Not enabling interactive session");
 		terminal = 0;
