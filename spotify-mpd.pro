@@ -58,7 +58,8 @@ SOURCES += main.cpp \
     ansi_log_target.cpp \
     log_target_base.cpp \
     log_target_container.cpp \
-    syslog_log_target.cpp
+    syslog_log_target.cpp \
+    iodevicesink.cpp
 HEADERS += application.hpp \
     log.hpp \
     log_level.hpp \
@@ -88,7 +89,9 @@ HEADERS += application.hpp \
     ansi_log_target.hpp \
     log_target_base.hpp \
     log_target_container.hpp \
-    syslog_log_target.hpp
+    syslog_log_target.hpp \
+    iodevicesink.hpp \
+    iodevice_ostream.hpp
 
 OTHER_FILES += \
     init.js
