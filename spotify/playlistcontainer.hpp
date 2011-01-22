@@ -23,6 +23,8 @@ public:
 	Q_INVOKABLE int numPlaylists() const;
 	Q_INVOKABLE Spotify::Playlist* playlist(int) const;
 
+	Q_INVOKABLE Spotify::Playlist* addPlaylist(const Spotify::Link*) const;
+
 signals:
 /*
 void(* 	playlist_added )(sp_playlistcontainer *pc, sp_playlist *playlist, int position, void *userdata)
