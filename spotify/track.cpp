@@ -18,7 +18,7 @@ bool Track::isLoaded() const {
 }
 
 bool Track::isAvailable() const {
-	return sp_track_is_available(p);
+	return false; //sp_track_is_available(p);
 }
 
 int Track::numArtists() const {
