@@ -1,17 +1,21 @@
 #ifndef SPOTIFYLINK_HPP
 #define SPOTIFYLINK_HPP
 
+#include <QMetaType>
 #include <QUrl>
 
 class sp_link;
 
 namespace Spotify {
 
-class Link {
+class Link : public QObject {
+	Q_OBJECT
+
 	sp_link* p;
 
 public:
 	Link();
+	Link(sp_link*);
 	Link(QUrl);
 	~Link();
 
@@ -22,5 +26,7 @@ public:
 };
 
 }
+
+Q_DECLARE_METATYPE(Spotify::Link*)
 
 #endif // SPOTIFYLINK_HPP

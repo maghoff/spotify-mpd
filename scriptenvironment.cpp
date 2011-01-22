@@ -29,7 +29,7 @@ QObject* resolveLink(QString url) {
 	case SP_LINKTYPE_TRACK: return new Spotify::Track(l);
 	case SP_LINKTYPE_ALBUM: return new Spotify::Album(l);
 	case SP_LINKTYPE_ARTIST: return new Spotify::Artist(l);
-	default: return 0;
+	default: return new Spotify::Link(l);
 	};
 }
 
@@ -103,6 +103,7 @@ ScriptEnvironment::ScriptEnvironment(
 	REGISTER(Playlist)
 	REGISTER(PlaylistContainer)
 	REGISTER(Track)
+	REGISTER(Link)
 
 	#undef REGISTER
 
