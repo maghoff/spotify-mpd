@@ -8,7 +8,9 @@
 #include <libspotify/api.h>
 #include "audiooutput.hpp"
 #include "appkey.h"
+#include "link.hpp"
 #include "log.hpp"
+#include "playlist.hpp"
 #include "playlistcontainer.hpp"
 #include "session.hpp"
 #include "track.hpp"
@@ -160,6 +162,14 @@ PlaylistContainer* Session::playlistContainer() {
 	PlaylistContainer* pc = new PlaylistContainer(p);
 	pc->setParent(this);
 	return pc;
+}
+
+Spotify::Playlist* Session::playlistCreate(Spotify::Link* l) {
+	LLOG(ERROR, "Link type: " << sp_link_type(l->get()));
+	sp_playlist* pl = sp_playlist_create(session, l->get());
+	LLOG(ERROR, "sp_playlist: " << pl);
+	if (!pl) return 0;
+	return new Playlist(pl);
 }
 
 // Logger macro for static members:

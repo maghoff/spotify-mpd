@@ -13,6 +13,8 @@ class AudioOutput;
 namespace Spotify {
 
 class Album;
+class Link;
+class Playlist;
 class PlaylistContainer;
 class Track;
 
@@ -59,6 +61,8 @@ public:
 
 	// Caller must take ownership of returned value.
 	Q_INVOKABLE Spotify::PlaylistContainer* playlistContainer();
+
+	Q_INVOKABLE Spotify::Playlist* playlistCreate(Spotify::Link*);
 
 private slots:
 	void spotifyNotifyMainThread();
