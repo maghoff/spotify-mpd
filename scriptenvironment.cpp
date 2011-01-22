@@ -6,6 +6,7 @@
 #include <QString>
 #include <QTextStream>
 #include <libspotify/api.h>
+#include "cinemadcontrol.hpp"
 #include "scriptenvironment.hpp"
 #include "spotify/artist.hpp"
 #include "spotify/album.hpp"
@@ -16,6 +17,8 @@
 #include "qlog.hpp"
 #include "log_target_container.hpp"
 #include "ansi_log_target.hpp"
+
+Q_DECLARE_METATYPE(QVector<int>);
 
 namespace {
 
@@ -86,6 +89,8 @@ ScriptEnvironment::ScriptEnvironment(
 {
 	QLOG(TRACE, "Constructed");
 
+	qScriptRegisterSequenceMetaType<QVector<int> >(engine);
+
 	QScriptValue applicationObject = engine->newQObject(environment);
 	engine->globalObject().setProperty("application", applicationObject);
 
@@ -106,6 +111,10 @@ ScriptEnvironment::ScriptEnvironment(
 	REGISTER(Link)
 
 	#undef REGISTER
+
+	qScriptRegisterMetaType(engine, &scriptValueFromType<CinemadControl>, &scriptValueToType<CinemadControl>);
+	QScriptValue cinemadControl = engine->newQObject(new CinemadControl());
+	engine->globalObject().setProperty("c", cinemadControl);
 
 	engine->evaluate(readEntireFile("init.js"));
 

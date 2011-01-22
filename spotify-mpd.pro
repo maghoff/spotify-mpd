@@ -59,7 +59,8 @@ SOURCES += main.cpp \
     log_target_base.cpp \
     log_target_container.cpp \
     syslog_log_target.cpp \
-    iodevicesink.cpp
+    iodevicesink.cpp \
+    cinemadcontrol.cpp
 HEADERS += application.hpp \
     log.hpp \
     log_level.hpp \
@@ -91,7 +92,8 @@ HEADERS += application.hpp \
     log_target_container.hpp \
     syslog_log_target.hpp \
     iodevicesink.hpp \
-    iodevice_ostream.hpp
+    iodevice_ostream.hpp \
+    cinemadcontrol.hpp
 
 OTHER_FILES += \
     init.js
