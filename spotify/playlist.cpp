@@ -16,14 +16,14 @@ void Playlist::handle_tracks_added(sp_playlist* p, sp_track * const * /* tracks 
 	pl->tracksAdded(num_tracks, position);
 }
 
-void Playlist::handle_tracks_removed(sp_playlist *p, const int * /* tracks */, int num_tracks, void *userdata) {
+void Playlist::handle_tracks_removed(sp_playlist *p, const int *tracks, int num_tracks, void *userdata) {
 	INIT_CB
-	pl->tracksRemoved(num_tracks);
+	//pl->tracksRemoved(QVector<int>(tracks, num_tracks));
 }
 
-void Playlist::handle_tracks_moved(sp_playlist *p, const int * /* tracks */, int num_tracks, int new_position, void *userdata) {
+void Playlist::handle_tracks_moved(sp_playlist *p, const int *tracks, int num_tracks, int new_position, void *userdata) {
 	INIT_CB
-	pl->tracksMoved(num_tracks, new_position);
+	//pl->tracksMoved(QVector<int>(tracks, num_tracks), new_position);
 }
 
 void Playlist::handle_playlist_renamed(sp_playlist *p, void *userdata) {
@@ -100,6 +100,10 @@ void Playlist::setCollaborative(bool b) const {
 
 bool Playlist::hasPendingChanges() const {
 	return sp_playlist_has_pending_changes(p);
+}
+
+void Playlist::removeTracks(QVector<int> tracks) {
+	sp_error retval = sp_playlist_remove_tracks(p, tracks.data(), tracks.size());
 }
 
 }

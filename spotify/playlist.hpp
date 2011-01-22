@@ -4,6 +4,7 @@
 #include <memory>
 #include <QMetaType>
 #include <QObject>
+#include <QVector>
 #include "track.hpp"
 
 struct sp_playlist;
@@ -53,10 +54,12 @@ public:
 	sp_error sp_playlist_reorder_tracks (sp_playlist *playlist, const int *tracks, int num_tracks, int new_position)
 	*/
 
+	Q_INVOKABLE void removeTracks(QVector<int>);
+
 signals:
 	void tracksAdded(/* tracks? */ int num_tracks, int position);
-	void tracksRemoved(/* tracks? */ int num_tracks);
-	void tracksMoved(/* tracks? */ int num_tracks, int new_position);
+	//void tracksRemoved(QVector<int> tracks);
+	//void tracksMoved(QVector<int> tracks, int new_position);
 	void playlistRenamed();
 	void playlistStateChanged();
 	void playlistUpdateInProgress(bool done);
