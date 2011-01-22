@@ -110,7 +110,7 @@ void Session::createSessionObject() {
 
 	config.callbacks = &callbacks;
 
-	sp_error error = sp_session_init(&config, &session);
+	sp_error error = sp_session_create(&config, &session);
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;

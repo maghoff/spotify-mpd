@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGES="libao boost"
-LIBSPOTIFY_VERSION="0.0.4"
+LIBSPOTIFY_VERSION="0.0.6"
 
 
 function libspotify_is_installed {
@@ -15,7 +15,7 @@ function libspotify_is_installed {
 
 function install_libspotify {
     # Binary is universal across ppc, x86 and x86-64
-    SOURCE_URI="http://developer.spotify.com/download/libspotify/libspotify-$LIBSPOTIFY_VERSION-darwin.zip"
+    SOURCE_URI="http://developer.spotify.com/download/libspotify/libspotify-$LIBSPOTIFY_VERSION-Darwin.zip"
     TARGET=/tmp/spotify.tar.gz
 
     curl -o "$TARGET" "$SOURCE_URI"
