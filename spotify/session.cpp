@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include <QCoreApplication>
+#include <QThread>
 #include <QStringList>
 #include <libspotify/api.h>
 #include "audiooutput.hpp"
@@ -45,6 +46,10 @@ Session::Session(
 	spotifyProcessEventsTimer.setSingleShot(true);
 	connect(&spotifyProcessEventsTimer, SIGNAL(timeout()), this, SLOT(spotifyNotifyMainThread()));
 
+	spotifyProcessAlwaysTimer.setSingleShot(false);
+	connect(&spotifyProcessAlwaysTimer, SIGNAL(timeout()), this, SLOT(spotifyNotifyMainThread()));
+	spotifyProcessAlwaysTimer.start(1000);
+
 	createSessionObject();
 }
 
@@ -63,7 +68,9 @@ bool Session::event(QEvent* e) {
 
 void Session::spotifyNotifyMainThread() {
 	int timeout = -1;
-	sp_session_process_events(session, &timeout);
+	do {
+		sp_session_process_events(session, &timeout);
+	} while (timeout == 0);
 	spotifyProcessEventsTimer.start(timeout);
 }
 
@@ -122,7 +129,7 @@ void Session::createSessionObject() {
 }
 
 void Session::login(QString username, QString password) {
-	sp_error error = sp_session_login(session, utf8_str(username).c_str(), utf8_str(password).c_str());
+	sp_error error = SP_ERROR_OK; sp_session_login(session, utf8_str(username).c_str(), utf8_str(password).c_str());
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
@@ -146,7 +153,7 @@ void Session::playerLoad(const Track& track) {
 }
 
 void Session::playerPlay(bool play) {
-	sp_error error = sp_session_player_play(session, play);
+	sp_error error = SP_ERROR_OK; sp_session_player_play(session, play);
 
 	if (error != SP_ERROR_OK) {
 		std::ostringstream ss;
@@ -156,6 +163,8 @@ void Session::playerPlay(bool play) {
 }
 
 PlaylistContainer* Session::playlistContainer() {
+	spotifyProcessEventsTimer.start(0);
+
 	sp_playlistcontainer* p = sp_session_playlistcontainer(session);
 	if (!p) return 0;
 
@@ -165,6 +174,8 @@ PlaylistContainer* Session::playlistContainer() {
 }
 
 Spotify::Playlist* Session::playlistCreate(Spotify::Link* l) {
+	spotifyProcessEventsTimer.start(0);
+
 	LLOG(ERROR, "Link type: " << sp_link_type(l->get()));
 	sp_playlist* pl = sp_playlist_create(session, l->get());
 	LLOG(ERROR, "sp_playlist: " << pl);

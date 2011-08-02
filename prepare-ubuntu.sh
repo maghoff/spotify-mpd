@@ -3,7 +3,7 @@
 # Could be more precise, since we are only using the core and network qt modules:
 PACKAGES="build-essential pkg-config libqt4-dev curl libboost-dev libasound2-dev libao-dev"
 
-LIBSPOTIFY_VERSION="0.0.4"
+LIBSPOTIFY_VERSION="0.0.8"
 
 function libspotify_is_installed {
     VSN=`pkg-config --modversion libspotify 2> /dev/null`

@@ -116,5 +116,5 @@ dir = util.dir;
 
 app.spotify.loggedIn.connect(function() {
 	pc = app.spotify.playlistContainer();
-	initBlackRiderSetup();
+	//initBlackRiderSetup();
 });

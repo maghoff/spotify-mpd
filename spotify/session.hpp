@@ -44,6 +44,7 @@ class Session : public QObject {
 	static void handle_end_of_track(sp_session*);
 
 	QTimer spotifyProcessEventsTimer;
+	QTimer spotifyProcessAlwaysTimer;
 
 	void createSessionObject();
 
